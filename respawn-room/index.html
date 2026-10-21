@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Respawn Room</title>
+<meta name="description" content="Gaming setup upgrades that work with your platform: headsets, charging docks, lighting and more, hand-picked from Amazon.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rubik:wght@400;500;700;800&display=swap">
+<style>
+/* Layout: grey retro-console plastic; a controller hero and button-colored loadout filter */
+:root{
+  --plastic:#dedad3; --plastic-2:#cbc6bd; --ink:#232129; --purple:#5b4a9b; --purple-2:#43367a;
+  --red:#d64535; --green:#3f9b5a; --blue:#3b6fc4; --yellow:#e8b830; --muted:#5a5662; --white:#fbfaf8;
+  --pixel:"Press Start 2P", ui-monospace, monospace; --body:"Rubik", system-ui, sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--plastic);color:var(--ink);font:16px/1.6 var(--body)}
+.wrap{max-width:1140px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.disclose{background:var(--ink);color:#d8d4de;font-size:13px;text-align:center;padding-block:8px}
+header .wrap{display:flex;justify-content:space-between;align-items:center;padding-block:18px;gap:16px}
+.logo{font-family:var(--pixel);font-size:15px;text-decoration:none;color:var(--ink);display:flex;gap:12px;align-items:center;line-height:1.4}
+.logo i{color:var(--purple)}
+nav{display:flex;gap:22px;font-weight:700}
+nav a{color:inherit;text-decoration:none}
+nav a:hover{color:var(--purple)}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding-block:40px 70px}
+.press{font-family:var(--pixel);font-size:11px;color:var(--red);animation:blink 1.2s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+h1{font-family:var(--pixel);font-weight:400;font-size:clamp(24px,3.6vw,44px);line-height:1.35;margin:18px 0 20px;text-wrap:balance}
+h1 span{color:var(--purple)}
+.lede{font-size:19px;color:var(--muted);max-width:48ch;margin:0 0 28px}
+.btn{display:inline-flex;gap:10px;align-items:center;background:var(--purple);color:#fff;font-weight:800;text-decoration:none;padding:15px 24px;border-radius:12px;box-shadow:0 6px 0 var(--purple-2);transition:transform .1s,box-shadow .1s}
+.btn:hover{transform:translateY(2px);box-shadow:0 4px 0 var(--purple-2)}
+.btn:active{transform:translateY(6px);box-shadow:0 0 0 var(--purple-2)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--yellow);outline-offset:3px}
+/* controller */
+.pad{position:relative;aspect-ratio:16/10;max-width:100%;background:linear-gradient(var(--white),#e9e6df);border-radius:120px 120px 160px 160px/110px 110px 190px 190px;box-shadow:inset 0 -14px 0 rgba(0,0,0,.08),0 30px 50px -20px rgba(35,33,41,.4)}
+.dpad{position:absolute;left:16%;top:34%;width:22%;aspect-ratio:1}
+.dpad::before,.dpad::after{content:"";position:absolute;background:var(--ink);border-radius:6px}
+.dpad::before{left:33%;width:34%;height:100%}.dpad::after{top:33%;height:34%;width:100%}
+.btns{position:absolute;right:13%;top:28%;width:26%;aspect-ratio:1}
+.btns span{position:absolute;width:34%;aspect-ratio:1;border-radius:50%;box-shadow:inset 0 -5px 0 rgba(0,0,0,.2)}
+.btns span:nth-child(1){left:33%;top:0;background:var(--green)}
+.btns span:nth-child(2){right:0;top:33%;background:var(--red);animation:press 2.4s infinite}
+.btns span:nth-child(3){left:33%;bottom:0;background:var(--blue)}
+.btns span:nth-child(4){left:0;top:33%;background:var(--yellow)}
+@keyframes press{0%,80%,100%{transform:none}85%{transform:scale(.88)}}
+.mid{position:absolute;left:42%;top:40%;width:16%;display:flex;gap:10%}
+.mid i{flex:1;height:10px;border-radius:5px;background:var(--plastic-2)}
+.logoP{position:absolute;left:0;right:0;bottom:16%;text-align:center;font-family:var(--pixel);font-size:10px;color:var(--purple);letter-spacing:.1em}
+section{padding-block:66px}
+h2{font-family:var(--pixel);font-weight:400;font-size:clamp(18px,2.6vw,28px);line-height:1.4;margin:0 0 10px}
+.sub{color:var(--muted);max-width:62ch;margin:0 0 26px}
+.plat{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:12px}
+.plat button{font:700 15px var(--body);border:0;border-radius:999px;padding:12px 20px;cursor:pointer;color:#fff;background:var(--ink);box-shadow:0 4px 0 #000;opacity:.55;transition:opacity .15s,transform .1s}
+.plat button[aria-pressed="true"]{opacity:1}
+.plat button:active{transform:translateY(3px)}
+.plat button:nth-child(2){background:var(--blue)}.plat button:nth-child(3){background:var(--green)}.plat button:nth-child(4){background:var(--red)}.plat button:nth-child(5){background:var(--purple)}
+.count{font-family:var(--pixel);font-size:11px;color:var(--purple);margin:0 0 24px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px}
+.hero{position:relative;background:radial-gradient(ellipse at 70% 40%,#ece8e1,var(--plastic) 70%)}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(transparent 0 3px,rgba(35,33,41,.045) 3px 4px)}
+.hero .wrap{position:relative;z-index:1}
+.pixels{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.pixels i{position:absolute;width:14px;height:14px;opacity:.5;animation:fall 7s linear infinite}
+@keyframes fall{from{transform:translateY(-40px)}to{transform:translateY(700px)}}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,140%);background:var(--ink);color:#fff;border:4px solid var(--yellow);padding:12px 18px;display:flex;gap:12px;align-items:center;font-family:var(--pixel);font-size:11px;line-height:1.6;transition:transform .35s cubic-bezier(.2,1.4,.4,1);z-index:20;max-width:calc(100% - 32px)}
+.toast.on{transform:translate(-50%,0)}
+.toast svg{color:var(--yellow);flex:none}
+.card{background:var(--white);padding:22px;display:flex;flex-direction:column;gap:12px;transition:transform .15s;
+  clip-path:polygon(0 12px,6px 12px,6px 6px,12px 6px,12px 0,calc(100% - 12px) 0,calc(100% - 12px) 6px,calc(100% - 6px) 6px,calc(100% - 6px) 12px,100% 12px,100% calc(100% - 12px),calc(100% - 6px) calc(100% - 12px),calc(100% - 6px) calc(100% - 6px),calc(100% - 12px) calc(100% - 6px),calc(100% - 12px) 100%,12px 100%,12px calc(100% - 6px),6px calc(100% - 6px),6px calc(100% - 12px),0 calc(100% - 12px))}
+.card:hover{transform:translateY(-4px)}
+.card .ico{width:56px;height:56px;border-radius:14px;background:var(--ink);color:#fff;display:grid;place-items:center}
+.card .ico svg{width:28px;height:28px}
+.card h3{margin:0;font-size:19px;line-height:1.25}
+.card p{margin:0;color:var(--muted);font-size:15px;flex:1}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tags span{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:var(--plastic);padding:4px 9px;border-radius:999px}
+.buy{display:flex;justify-content:space-between;align-items:center;text-decoration:none;font-weight:800;color:#fff;background:var(--purple);padding:12px 16px;border-radius:12px}
+.buy:hover{background:var(--purple-2)}
+.tips{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.tips div{background:var(--white);border-radius:18px;padding:22px;border-left:6px solid var(--red)}
+.tips div:nth-child(2){border-color:var(--green)}.tips div:nth-child(3){border-color:var(--blue)}
+.tips b{display:block;font-size:17px;margin-bottom:4px}
+.tips p{margin:0;color:var(--muted)}
+footer{background:var(--ink);color:#bdb8c6;font-size:14px}
+footer .wrap{padding-block:36px;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between}
+footer strong{font-family:var(--pixel);font-weight:400;font-size:13px;color:#fff}
+@media (max-width:820px){.hero .wrap,.tips{grid-template-columns:1fr}nav{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="disclose">As an Amazon Associate I earn from qualifying purchases. Links may earn a commission at no extra cost to you.</div>
+<header><div class="wrap">
+  <a class="logo" href="#"><i data-lucide="gamepad-2"></i>Respawn Room</a>
+  <nav><a href="#loadout">Loadout</a><a href="#tips">Setup tips</a></nav>
+</div></header>
+
+<div class="hero"><div class="pixels" id="pixels" aria-hidden="true"></div><div class="wrap">
+  <div>
+    <div class="press">PRESS START</div>
+    <h1>Level up your <span>setup</span>, not your budget.</h1>
+    <p class="lede">Headsets, docks, lighting and grips that actually work with the system you play on. Pick your platform and we'll show only the gear that fits.</p>
+    <a class="btn" href="#loadout">Build my loadout <i data-lucide="arrow-down"></i></a>
+  </div>
+  <div class="pad" aria-hidden="true">
+    <div class="dpad"></div><div class="mid"><i></i><i></i></div>
+    <div class="btns"><span></span><span></span><span></span><span></span></div>
+    <div class="logoP">PLAYER 1</div>
+  </div>
+</div></div>
+
+<section id="loadout" style="padding-top:10px"><div class="wrap">
+  <h2>Choose your platform</h2>
+  <p class="sub">Every pick lists which systems it works with. Always double-check compatibility on the listing before you buy.</p>
+  <div class="plat" role="group" aria-label="Platform">
+    <button aria-pressed="true" data-p="all">All</button>
+    <button aria-pressed="false" data-p="pc">PC</button>
+    <button aria-pressed="false" data-p="xbox">Xbox</button>
+    <button aria-pressed="false" data-p="ps">PlayStation</button>
+    <button aria-pressed="false" data-p="switch">Switch</button>
+  </div>
+  <p class="count" id="count" aria-live="polite">8 ITEMS UNLOCKED</p>
+  <div class="grid">
+    <article class="card" data-p="pc xbox ps switch"><div class="ico"><i data-lucide="headphones"></i></div><h3>Wireless gaming headset</h3><p>Low-latency 2.4 GHz wireless, so footsteps line up with what's on screen. Pick one with a flip-to-mute mic.</p><div class="tags"><span>PC</span><span>Xbox*</span><span>PS</span><span>Switch</span></div>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=wireless+gaming+headset&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+    <article class="card" data-p="xbox ps switch"><div class="ico"><i data-lucide="battery-charging"></i></div><h3>Controller charging dock</h3><p>Drop the controllers in when you're done and they're full next time. No more dead pad mid-match.</p><div class="tags"><span>Xbox</span><span>PS</span><span>Switch</span></div>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=controller+charging+station&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+    <article class="card" data-p="pc xbox ps switch"><div class="ico"><i data-lucide="lightbulb"></i></div><h3>Smart LED light strip</h3><p>Stick it behind the monitor or TV. Bias lighting is easier on the eyes in a dark room, and it looks great.</p><div class="tags"><span>Any setup</span></div>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=tv+backlight+led+strip&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+    <article class="card" data-p="pc"><div class="ico"><i data-lucide="mouse"></i></div><h3>Lightweight gaming mouse</h3><p>Under about 70 g for fast flicks in shooters. A light mouse is less tiring over long sessions.</p><div class="tags"><span>PC</span></div>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=lightweight+gaming+mouse&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+    <article class="card" data-p="pc"><div class="ico"><i data-lucide="rectangle-horizontal"></i></div><h3>XL desk mat</h3><p>Room for low-sensitivity sweeps and the keyboard on one smooth surface.</p><div class="tags"><span>PC</span></div>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=xl+gaming+mouse+pad&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+    <article class="card" data-p="xbox ps switch"><div class="ico"><i data-lucide="joystick"></i></div><h3>Thumbstick grips</h3><p>Taller, grippier sticks for finer aim and less thumb slip during long sessions.</p><div class="tags"><span>Xbox</span><span>PS</span><span>Switch</span></div>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=thumbstick+grips+controller&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+    <article class="card" data-p="pc xbox ps switch"><div class="ico"><i data-lucide="video"></i></div><h3>Capture card</h3><p>Record or stream console gameplay to your computer. Look for 4K passthrough so you still play lag-free.</p><div class="tags"><span>Any console</span><span>PC</span></div>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=capture+card+4k+passthrough&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+    <article class="card" data-p="pc xbox ps"><div class="ico"><i data-lucide="usb"></i></div><h3>Headset stand with USB hub</h3><p>Gets the headset off the desk and adds extra USB ports right where you need them.</p><div class="tags"><span>PC</span><span>Console</span></div>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=headset+stand+usb+hub&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+  </div>
+  <p class="sub" style="font-size:13px;margin-top:18px">*Some wireless headsets need an Xbox-specific version. Check the listing.</p>
+</div></section>
+
+<section id="tips" style="padding-top:0"><div class="wrap">
+  <h2>Three free upgrades</h2>
+  <p class="sub">Do these before buying anything.</p>
+  <div class="tips">
+    <div><b>Turn on game mode</b><p>Most TVs have a game mode that cuts input lag a lot. It's in the picture settings.</p></div>
+    <div><b>Wire what you can</b><p>An ethernet cable to the console beats Wi-Fi for steady online play.</p></div>
+    <div><b>Screen at eye level</b><p>Tilt the top of the monitor toward you and keep it about an arm's length away.</p></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div><strong>RESPAWN ROOM</strong><br>Better setups, every platform.</div>
+  <div style="max-width:520px">As an Amazon Associate I earn from qualifying purchases. Product names are generic; check compatibility on each listing. Prices and availability are set by Amazon.</div>
+</div></footer>
+<div class="toast" id="toast" role="status" aria-live="polite"><i data-lucide="trophy"></i><span id="tmsg">ACHIEVEMENT UNLOCKED</span></div>
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script>
+const cols=['#d64535','#3f9b5a','#3b6fc4','#e8b830','#5b4a9b'],px=document.getElementById('pixels');
+for(let i=0;i<18;i++){const e=document.createElement('i');e.style.cssText=`left:${(i*53)%100}%;background:${cols[i%5]};animation-delay:${-(i*0.9)}s;animation-duration:${6+i%4}s`;px.appendChild(e)}
+lucide.createIcons();
+const pb=document.querySelectorAll('.plat button'),cards=document.querySelectorAll('.card'),toast=document.getElementById('toast');let tt;
+pb.forEach(b=>b.addEventListener('click',()=>{pb.forEach(x=>x.setAttribute('aria-pressed',x===b));let n=0;
+  cards.forEach(c=>{const on=b.dataset.p==='all'||c.dataset.p.split(' ').includes(b.dataset.p);c.hidden=!on;if(on)n++});
+  document.getElementById('count').textContent=`${n} ITEMS UNLOCKED`;
+  document.getElementById('tmsg').textContent=`ACHIEVEMENT UNLOCKED: ${b.textContent.toUpperCase()} LOADOUT`;
+  toast.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>toast.classList.remove('on'),2200)}));
+</script>
+<script src="../sfx.js" data-theme="respawn-room"></script>
+</body>
+</html>

@@ -139,5 +139,6 @@ function upd(){const [h,m]=(wake.value||'07:00').split(':').map(Number),w=h*60+m
   box.innerHTML=[6,5,4].map(c=>`<div class="t${c===6?' best':''}"><b>${fmt(w-c*90-15)}</b><span>${c} cycles · ${c*1.5} h sleep</span>${c===6?'<i>ideal</i>':c===5?'<i>good</i>':'<i>short night</i>'}</div>`).join('')}
 wake.addEventListener('input',upd);upd();
 </script>
+<script src="../sfx.js" data-theme="lights-out-lab"></script>
 </body>
 </html>

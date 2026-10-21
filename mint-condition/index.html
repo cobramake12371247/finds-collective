@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mint Condition</title>
+<meta name="description" content="Protect and organize your trading card collection: sleeves, toploaders, binders and boxes from Amazon, plus a storage planner.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Figtree:wght@400;500;700;800&display=swap">
+<style>
+/* Layout: a binder of holo trading cards: each pick is a foil card that tilts under the pointer; set numbers and rarity marks */
+:root{
+  --night:#13111d; --night-2:#1d1a2c; --gold:#f2c14e; --text:#f4f2fb; --dim:#a9a4c0; --line:#2d2942; --mint:#5ef0b5;
+  --holo:linear-gradient(115deg,#ff8ad8,#ffd36e 20%,#7cf7c4 40%,#6fc8ff 60%,#b48cff 80%,#ff8ad8);
+  --display:"Big Shoulders Display", Impact, sans-serif; --body:"Figtree", system-ui, sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(ellipse at 50% -10%,#2a2142,var(--night) 60%);color:var(--text);font:16px/1.6 var(--body);min-height:100vh}
+.wrap{max-width:1160px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.disclose{border-bottom:1px solid var(--line);color:var(--dim);font-size:13px;text-align:center;padding-block:8px}
+header .wrap{display:flex;justify-content:space-between;align-items:center;padding-block:18px;gap:16px}
+.logo{font:900 30px var(--display);text-transform:uppercase;letter-spacing:.02em;text-decoration:none;background:var(--holo);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shift 6s linear infinite}
+@keyframes shift{to{background-position:200% 0}}
+nav{display:flex;gap:22px;font-weight:700}
+nav a{color:var(--dim);text-decoration:none}
+nav a:hover{color:var(--gold)}
+.hero .wrap{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;padding-block:40px 80px}
+.rar{font:700 13px var(--body);letter-spacing:.2em;color:var(--gold)}
+h1{font:900 clamp(56px,9vw,120px)/.86 var(--display);text-transform:uppercase;margin:12px 0 18px}
+h1 span{background:var(--holo);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shift 5s linear infinite}
+.lede{font-size:19px;color:var(--dim);max-width:44ch;margin:0 0 26px}
+.btn{display:inline-flex;gap:10px;align-items:center;background:var(--gold);color:#241a02;font-weight:800;text-decoration:none;padding:15px 24px;border-radius:12px;transition:transform .2s}
+.btn:hover{transform:translateY(-2px) rotate(-1deg)}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--mint);outline-offset:3px}
+/* fanned hero cards */
+.fan{position:relative;height:420px;max-width:100%}
+.tc{position:absolute;left:50%;top:20px;width:220px;aspect-ratio:63/88;margin-left:-110px;border-radius:14px;padding:10px;background:#f6f1df;box-shadow:0 30px 50px -16px rgba(0,0,0,.7);transform-origin:50% 120%}
+.tc .art{height:58%;border-radius:8px;background:var(--holo);background-size:300% 300%;animation:shift 4s linear infinite;position:relative;overflow:hidden}
+.tc .art::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(45deg,rgba(255,255,255,.25) 0 2px,transparent 2px 8px)}
+.tc .nm{margin-top:10px;height:12px;width:70%;background:#c9c1a6;border-radius:6px}
+.tc .tx{margin-top:8px;height:8px;width:90%;background:#ddd5ba;border-radius:4px;box-shadow:0 14px 0 #ddd5ba,0 28px 0 #ddd5ba}
+.tc.a{transform:rotate(-16deg);background:#e9eef7}.tc.b{transform:rotate(0);z-index:2}.tc.c{transform:rotate(16deg);background:#f7e9ee}
+.tc.b{animation:lift 4s ease-in-out infinite}
+@keyframes lift{50%{transform:translateY(-14px)}}
+section{padding-block:60px}
+h2{font:900 clamp(36px,5vw,60px)/.95 var(--display);text-transform:uppercase;margin:0 0 8px}
+.sub{color:var(--dim);max-width:62ch;margin:0 0 30px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:28px;perspective:900px}
+/* foil product card: tilt + glare follow the pointer (set by JS through --rx/--ry/--gx) */
+.card{position:relative;border-radius:16px;padding:3px;background:var(--holo);background-size:200% 200%;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .15s;transform-style:preserve-3d}
+.card .in{position:relative;height:100%;border-radius:13px;background:var(--night-2);padding:18px;display:flex;flex-direction:column;gap:10px;overflow:hidden}
+.card .in::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.18) var(--gx,45%),transparent 60%);mix-blend-mode:screen}
+.top{display:flex;justify-content:space-between;font:700 12px var(--body);letter-spacing:.14em;color:var(--dim)}
+.stars{color:var(--gold);letter-spacing:.1em}
+.ill{height:92px;border-radius:10px;background:linear-gradient(160deg,#2a2541,#1a1729);display:grid;place-items:center;border:1px solid var(--line)}
+.ill svg{width:42px;height:42px;color:var(--text)}
+.card h3{margin:0;font:900 26px/1 var(--display);text-transform:uppercase}
+.card p{margin:0;color:var(--dim);font-size:15px;flex:1}
+.buy{display:flex;justify-content:space-between;align-items:center;text-decoration:none;font-weight:800;color:#241a02;background:var(--gold);padding:11px 15px;border-radius:10px}
+.buy:hover{background:var(--mint)}
+.plan{background:var(--night-2);border:1px solid var(--line);border-radius:22px;padding:clamp(22px,4vw,40px);display:grid;grid-template-columns:1fr 1.2fr;gap:30px;align-items:center}
+.plan label{display:block;font-weight:800;margin:14px 0 8px}
+.plan input[type=range]{width:100%;accent-color:var(--gold)}
+.big{font:900 64px/1 var(--display);color:var(--gold);font-variant-numeric:tabular-nums}
+.list{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.list div{background:var(--night);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.list b{display:block;font:900 38px/1 var(--display);font-variant-numeric:tabular-nums}
+.list span{color:var(--dim);font-size:14px}
+footer{border-top:1px solid var(--line)}
+footer .wrap{padding-block:34px;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;font-size:14px;color:var(--dim)}
+footer strong{font:900 22px var(--display);text-transform:uppercase;color:var(--text)}
+@media (max-width:820px){.hero .wrap,.plan{grid-template-columns:1fr}nav{display:none}.fan{height:360px}.tc{width:180px;margin-left:-90px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="disclose">As an Amazon Associate I earn from qualifying purchases. Links may earn a commission at no extra cost to you.</div>
+<header><div class="wrap">
+  <a class="logo" href="#">Mint Condition</a>
+  <nav><a href="#set">The set</a><a href="#planner">Storage planner</a></nav>
+</div></header>
+
+<div class="hero"><div class="wrap">
+  <div>
+    <div class="rar">★★★★ ULTRA RARE · 1ST EDITION</div>
+    <h1>Pull it.<br><span>Protect it.</span></h1>
+    <p class="lede">The difference between a gem mint card and a beat-up one is a 2-cent sleeve. Here's the full storage setup, from penny sleeves to slab displays.</p>
+    <a class="btn" href="#set">Open the pack <i data-lucide="sparkles"></i></a>
+  </div>
+  <div class="fan" aria-hidden="true">
+    <div class="tc a"><div class="art"></div><div class="nm"></div><div class="tx"></div></div>
+    <div class="tc c"><div class="art"></div><div class="nm"></div><div class="tx"></div></div>
+    <div class="tc b"><div class="art"></div><div class="nm"></div><div class="tx"></div></div>
+  </div>
+</div></div>
+
+<section id="set" style="padding-top:10px"><div class="wrap">
+  <h2>The complete set · 8 cards</h2>
+  <p class="sub">Move your pointer over a card to see the foil. Common supplies first, then up to display pieces.</p>
+  <div class="grid">
+    <article class="card"><div class="in"><div class="top"><span>001/008</span><span class="stars">★</span></div><div class="ill"><i data-lucide="layers"></i></div><h3>Penny sleeves</h3><p>Soft, clear sleeves that go on every card the second it leaves the pack.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=penny+card+sleeves&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></div></article>
+    <article class="card"><div class="in"><div class="top"><span>002/008</span><span class="stars">★★</span></div><div class="ill"><i data-lucide="square"></i></div><h3>Toploaders</h3><p>Rigid holders for your hits. Sleeve first, then slide it into a toploader.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=toploaders+3x4&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></div></article>
+    <article class="card"><div class="in"><div class="top"><span>003/008</span><span class="stars">★★</span></div><div class="ill"><i data-lucide="book-open"></i></div><h3>Zip 9-pocket binder</h3><p>Side-loading pockets and a zipper keep cards in and dust out. Avoid ring binders, which dent cards.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=zipper+9+pocket+card+binder&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></div></article>
+    <article class="card"><div class="in"><div class="top"><span>004/008</span><span class="stars">★★</span></div><div class="ill"><i data-lucide="archive"></i></div><h3>800-count storage boxes</h3><p>Cardboard boxes for bulk and commons. Label the ends by set and you'll find anything fast.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=800+count+card+storage+box&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></div></article>
+    <article class="card"><div class="in"><div class="top"><span>005/008</span><span class="stars">★★★</span></div><div class="ill"><i data-lucide="magnet"></i></div><h3>Magnetic card holders</h3><p>UV-protected one-touch cases for the cards you want to show off. Check the point thickness for your card.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=magnetic+card+holder+35pt+uv&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></div></article>
+    <article class="card"><div class="in"><div class="top"><span>006/008</span><span class="stars">★★★</span></div><div class="ill"><i data-lucide="columns-3"></i></div><h3>Card sorting trays</h3><p>Sort a fresh box into sets or numbers in minutes instead of covering the whole table.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=trading+card+sorting+tray&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></div></article>
+    <article class="card"><div class="in"><div class="top"><span>007/008</span><span class="stars">★★★★</span></div><div class="ill"><i data-lucide="award"></i></div><h3>Graded slab display stand</h3><p>Tiered acrylic stand that turns graded slabs into a shelf display.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=graded+card+slab+display+stand&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></div></article>
+    <article class="card"><div class="in"><div class="top"><span>008/008</span><span class="stars">★★★★</span></div><div class="ill"><i data-lucide="box"></i></div><h3>Deck box</h3><p>A tough box for the deck you actually play, so your best cards survive game night.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=card+deck+box+100&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></div></article>
+  </div>
+</div></section>
+
+<section id="planner" style="padding-top:0"><div class="wrap">
+  <div class="plan">
+    <div>
+      <h2>Storage planner</h2>
+      <p class="sub" style="margin:0">Tell us how big the collection is and how many are hits worth extra protection.</p>
+      <label for="n">Cards in the collection: <span id="nv">1,200</span></label>
+      <input id="n" type="range" min="50" max="10000" step="50" value="1200">
+      <label for="h">Hits that go in toploaders: <span id="hv">5</span>%</label>
+      <input id="h" type="range" min="0" max="30" value="5">
+    </div>
+    <div aria-live="polite">
+      <div class="list">
+        <div><b id="sl">12</b><span>packs of 100 penny sleeves</span></div>
+        <div><b id="tl">3</b><span>packs of 25 toploaders</span></div>
+        <div><b id="bx">2</b><span>800-count boxes for the rest</span></div>
+        <div><b id="pg">7</b><span>9-pocket pages to show the hits</span></div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div><strong>Mint Condition</strong><br>Pull it. Protect it.</div>
+  <div style="max-width:520px">As an Amazon Associate I earn from qualifying purchases. Not affiliated with any card game publisher. Prices and availability are set by Amazon.</div>
+</div></footer>
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script>
+lucide.createIcons();
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
+  document.querySelectorAll('.card').forEach(c=>{
+    c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
+      c.style.setProperty('--ry',((x-.5)*16)+'deg');c.style.setProperty('--rx',((.5-y)*12)+'deg');c.style.setProperty('--gx',(x*100)+'%');c.style.backgroundPosition=`${x*100}% ${y*100}%`});
+    c.addEventListener('pointerleave',()=>{c.style.setProperty('--rx','0deg');c.style.setProperty('--ry','0deg')})})}
+const n=document.getElementById('n'),h=document.getElementById('h');
+function upd(){const N=+n.value,H=Math.round(N*h.value/100);
+  document.getElementById('nv').textContent=N.toLocaleString();document.getElementById('hv').textContent=h.value;
+  document.getElementById('sl').textContent=Math.ceil(N/100);document.getElementById('tl').textContent=Math.ceil(H/25);
+  document.getElementById('bx').textContent=Math.max(1,Math.ceil((N-H)/800));document.getElementById('pg').textContent=Math.ceil(H/9)}
+n.addEventListener('input',upd);h.addEventListener('input',upd);upd();
+</script>
+<script src="../sfx.js" data-theme="mint-condition"></script>
+</body>
+</html>

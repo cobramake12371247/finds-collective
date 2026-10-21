@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mix &amp; Scratch</title>
+<meta name="description" content="DJ gear for beginners: controllers, headphones, turntables and speakers from Amazon, plus a BPM match calculator.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Outfit:wght@400;500;700;800&display=swap">
+<style>
+/* Layout: a DJ booth: two spinning decks with a live crossfader in the hero, picks as cue-pad cards, a BPM matcher */
+:root{
+  --booth:#0d0d12; --deck:#1b1b22; --deck-2:#25252e; --line:#33333d; --text:#f1f0f6; --dim:#a3a2b2;
+  --cue:#ff3d3d; --sync:#ffb020; --wave:#3fa9ff; --play:#2fdc8b;
+  --display:"Bungee", Impact, sans-serif; --body:"Outfit", system-ui, sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--booth);color:var(--text);font:17px/1.6 var(--body)}
+.wrap{max-width:1160px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.disclose{border-bottom:1px solid var(--line);color:var(--dim);font-size:13px;text-align:center;padding-block:8px}
+header .wrap{display:flex;justify-content:space-between;align-items:center;padding-block:18px;gap:16px}
+.logo{font:400 24px var(--display);text-decoration:none;color:var(--text)}
+.logo span{color:var(--cue)}
+nav{display:flex;gap:22px;font-weight:700}
+nav a{color:var(--dim);text-decoration:none}
+nav a:hover{color:var(--sync)}
+.hero .wrap{padding-block:20px 70px;text-align:center}
+h1{font:400 clamp(40px,7.4vw,96px)/.95 var(--display);margin:10px 0 14px;background:linear-gradient(90deg,var(--cue) calc(var(--x,50%) - 20%),var(--wave) calc(var(--x,50%) + 20%));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lede{font-size:19px;color:var(--dim);max-width:52ch;margin:0 auto 26px}
+/* decks */
+.decks{display:grid;grid-template-columns:1fr auto 1fr;gap:clamp(12px,3vw,30px);align-items:center;background:var(--deck);border:1px solid var(--line);border-radius:26px;padding:clamp(14px,3vw,30px);max-width:980px;margin:0 auto}
+.dk{position:relative;aspect-ratio:1;max-width:100%;transition:opacity .2s,filter .2s}
+.vinyl{position:absolute;inset:6%;border-radius:50%;background:repeating-radial-gradient(circle,#141418 0 2px,#1f1f26 2px 4px);box-shadow:0 0 0 8px #2c2c35,0 20px 40px -10px #000;animation:spin 1.8s linear infinite}
+.vinyl::before{content:"";position:absolute;inset:34%;border-radius:50%;background:var(--lab)}
+.vinyl::after{content:"";position:absolute;left:50%;top:50%;width:10px;height:10px;margin:-5px;border-radius:50%;background:#ddd}
+.vinyl i{position:absolute;left:50%;top:36%;width:12%;height:3%;background:rgba(255,255,255,.7);border-radius:2px;transform:translateX(-50%)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.arm{position:absolute;right:0;top:4%;width:12%;height:62%;border-right:5px solid #b9bec4;border-radius:0 0 0 30px;transform-origin:top right;transform:rotate(18deg)}
+.mixer{display:flex;flex-direction:column;align-items:center;gap:14px;min-width:110px}
+.bpmd{font:400 26px var(--display);color:var(--sync);font-variant-numeric:tabular-nums}
+.xf{width:clamp(110px,16vw,180px);accent-color:var(--sync)}
+.xl{font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--dim);text-transform:uppercase}
+.wave{height:34px;max-width:980px;margin:16px auto 0;border-radius:8px;background:repeating-linear-gradient(90deg,var(--wave) 0 3px,transparent 3px 6px);mask:radial-gradient(ellipse 60% 80% at var(--x,50%) 50%,#000 30%,rgba(0,0,0,.25));animation:scroll 3s linear infinite}
+@keyframes scroll{to{background-position:-120px 0}}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--sync);outline-offset:3px}
+section{padding-block:60px}
+h2{font:400 clamp(30px,4.6vw,50px)/1 var(--display);margin:0 0 8px}
+.sub{color:var(--dim);max-width:62ch;margin:0 0 28px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+/* cue pads */
+.pad{position:relative;background:var(--deck-2);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:10px;border-bottom:5px solid var(--pc);transition:transform .1s,box-shadow .2s}
+.pad:hover{box-shadow:0 0 0 2px var(--pc),0 0 30px -6px var(--pc)}
+.pad:active{transform:translateY(3px)}
+.num{position:absolute;top:16px;right:18px;font:400 22px var(--display);color:var(--pc)}
+.pad svg.lucide{width:32px;height:32px;color:var(--pc)}
+.pad h3{margin:0;font:800 20px/1.2 var(--body)}
+.pad p{margin:0;color:var(--dim);font-size:15px;flex:1}
+.buy{display:flex;justify-content:space-between;align-items:center;text-decoration:none;font-weight:800;color:var(--booth);background:var(--pc);padding:11px 15px;border-radius:10px}
+.calc{background:var(--deck);border:1px solid var(--line);border-radius:22px;padding:clamp(22px,4vw,40px);display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center}
+.ins{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.ins label{display:block;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+.ins input{width:100%;font:400 30px var(--display);background:var(--booth);color:var(--text);border:1px solid var(--line);border-radius:12px;padding:10px}
+.pct{font:400 clamp(48px,8vw,80px)/1 var(--display);color:var(--sync);font-variant-numeric:tabular-nums}
+.res p{color:var(--dim);margin:8px 0 0}
+footer{border-top:1px solid var(--line)}
+footer .wrap{padding-block:34px;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;font-size:14px;color:var(--dim)}
+footer strong{font:400 20px var(--display);color:var(--text)}
+@media (max-width:820px){.calc{grid-template-columns:1fr}nav{display:none}.decks{grid-template-columns:1fr 1fr}.mixer{grid-column:1/-1;order:3}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="disclose">As an Amazon Associate I earn from qualifying purchases. Links may earn a commission at no extra cost to you.</div>
+<header><div class="wrap">
+  <a class="logo" href="#">Mix <span>&amp;</span> Scratch</a>
+  <nav><a href="#crate">The crate</a><a href="#match">BPM match</a></nav>
+</div></header>
+
+<div class="hero" id="hero"><div class="wrap">
+  <h1>Your first set starts here.</h1>
+  <p class="lede">The beginner DJ setup that actually makes sense: a controller, headphones that swivel and speakers you can hear yourself on. Slide the crossfader to try it.</p>
+  <div class="decks">
+    <div class="dk" id="dA"><div class="vinyl" style="--lab:var(--cue)"><i></i></div><div class="arm"></div></div>
+    <div class="mixer">
+      <div class="bpmd">124.0</div>
+      <label class="xl" for="xf">Crossfader</label>
+      <input class="xf" id="xf" type="range" min="0" max="100" value="50">
+      <div class="xl"><span style="color:var(--cue)">A</span> · <span style="color:var(--wave)">B</span></div>
+    </div>
+    <div class="dk" id="dB"><div class="vinyl" style="--lab:var(--wave);animation-duration:1.75s"><i></i></div><div class="arm"></div></div>
+  </div>
+  <div class="wave" aria-hidden="true"></div>
+</div></div>
+
+<section id="crate"><div class="wrap">
+  <h2>Dig the crate</h2>
+  <p class="sub">Eight cue points to a working setup. Pads 1 to 3 get you mixing; the rest level you up.</p>
+  <div class="grid">
+    <article class="pad" style="--pc:var(--cue)"><span class="num">1</span><i data-lucide="disc-3"></i><h3>2-channel DJ controller</h3><p>Two jog wheels, a mixer and pads in one box that plugs into your laptop. The way almost everyone starts.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=2+channel+dj+controller&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+    <article class="pad" style="--pc:var(--sync)"><span class="num">2</span><i data-lucide="headphones"></i><h3>Swivel DJ headphones</h3><p>One ear on the cue, one on the room. Swiveling ear cups and a closed back are what you need.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=dj+headphones+swivel&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+    <article class="pad" style="--pc:var(--play)"><span class="num">3</span><i data-lucide="speaker"></i><h3>Powered speakers</h3><p>Hear your mix out loud so you learn to blend for a room, not just for headphones.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=powered+speakers+dj+monitors&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+    <article class="pad" style="--pc:var(--wave)"><span class="num">4</span><i data-lucide="laptop"></i><h3>Laptop stand</h3><p>Lifts the screen to eye level next to the controller so you can watch the waveforms without hunching.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=dj+laptop+stand&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+    <article class="pad" style="--pc:#c86bff"><span class="num">5</span><i data-lucide="disc"></i><h3>Direct-drive turntable</h3><p>For vinyl and scratching. Direct drive starts instantly and holds tempo, unlike belt drive.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=direct+drive+turntable+dj&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+    <article class="pad" style="--pc:#ff7ab6"><span class="num">6</span><i data-lucide="circle"></i><h3>Slipmats</h3><p>Let the record slip while the platter keeps spinning, which is essential for scratching and cueing on vinyl.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=dj+slipmats&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+    <article class="pad" style="--pc:#7fe3ff"><span class="num">7</span><i data-lucide="usb"></i><h3>USB drives for club decks</h3><p>Export your playlists to USB and play on club gear without bringing a laptop.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=usb+flash+drive+64gb+multipack&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+    <article class="pad" style="--pc:#ffd966"><span class="num">8</span><i data-lucide="backpack"></i><h3>Controller gig bag</h3><p>A padded bag sized for your controller, with pockets for headphones and cables.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=dj+controller+bag&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+  </div>
+</div></section>
+
+<section id="match" style="padding-top:0"><div class="wrap">
+  <h2>BPM match</h2>
+  <p class="sub">Type the tempo of the playing track and the next one. You'll get the pitch change to beatmatch, plus how long a 32-beat phrase lasts.</p>
+  <div class="calc">
+    <div class="ins">
+      <div><label for="a">Playing (A)</label><input id="a" type="number" min="60" max="200" step="0.1" value="124"></div>
+      <div><label for="b">Next (B)</label><input id="b" type="number" min="60" max="200" step="0.1" value="128"></div>
+    </div>
+    <div class="res" aria-live="polite">
+      <div class="pct" id="pct">−3.1%</div>
+      <p id="msg"></p>
+    </div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div><strong>Mix &amp; Scratch</strong><br>Your first set starts here.</div>
+  <div style="max-width:520px">As an Amazon Associate I earn from qualifying purchases. Prices and availability are set by Amazon.</div>
+</div></footer>
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script>
+lucide.createIcons();
+const xf=document.getElementById('xf'),hero=document.getElementById('hero'),A=document.getElementById('dA'),B=document.getElementById('dB');
+function fade(){const v=+xf.value;hero.style.setProperty('--x',v+'%');A.style.opacity=.35+.65*Math.min(1,(100-v)/50);B.style.opacity=.35+.65*Math.min(1,v/50)}
+xf.addEventListener('input',fade);fade();
+const a=document.getElementById('a'),b=document.getElementById('b');
+function match(){const ta=+a.value,tb=+b.value;if(!ta||!tb)return;let target=tb,note='';
+  if(tb/ta>1.4){target=tb/2;note=' (B is double-time, so match it at half speed)'}else if(ta/tb>1.4){target=tb*2;note=' (B is half-time, so match it at double speed)'}
+  const p=(ta/target-1)*100;document.getElementById('pct').textContent=(p>0?'+':'')+p.toFixed(1)+'%';
+  document.getElementById('msg').textContent=`Move deck B's pitch fader ${p>=0?'up':'down'} ${Math.abs(p).toFixed(1)}% to lock it to ${ta} BPM${note}. A 32-beat phrase at ${ta} BPM lasts ${(32*60/ta).toFixed(1)} s, which is your window to bring B in.`}
+a.addEventListener('input',match);b.addEventListener('input',match);match();
+</script>
+<script src="../sfx.js" data-theme="mix-and-scratch"></script>
+</body>
+</html>

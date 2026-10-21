@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vocal Booth</title>
+<meta name="description" content="Record clean vocals and podcasts at home: microphones, pop filters, boom arms and room treatment from Amazon, plus a room noise test.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Instrument+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: inside a foam-lined booth: acoustic wedges, an ON AIR light, a live waveform; a room-noise test uses the visitor's mic locally */
+:root{
+  --foam:#25232a; --foam-hi:#34313b; --foam-lo:#18171c; --text:#f2eef6; --dim:#a8a2b4;
+  --air:#ff3d3d; --air-glow:rgba(255,61,61,.55); --wave:#7ee0c3; --amber:#ffb547; --line:#39353f;
+  --display:"Syne", "Arial Black", sans-serif; --body:"Instrument Sans", system-ui, sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--text);font:17px/1.6 var(--body);background-color:var(--foam);
+  /* acoustic foam wedges */
+  background-image:linear-gradient(135deg,var(--foam-hi) 25%,transparent 25%),linear-gradient(225deg,var(--foam-hi) 25%,transparent 25%),linear-gradient(315deg,var(--foam-lo) 25%,transparent 25%),linear-gradient(45deg,var(--foam-lo) 25%,transparent 25%);
+  background-size:44px 44px;background-position:0 0,0 0,22px 22px,22px 22px}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.disclose{background:#121115;color:var(--dim);font-size:13px;text-align:center;padding-block:8px}
+header .wrap{display:flex;justify-content:space-between;align-items:center;padding-block:18px;gap:16px}
+.logo{font:800 24px var(--display);text-decoration:none;color:var(--text);letter-spacing:-.02em}
+nav{display:flex;gap:22px;font-weight:700}
+nav a{color:var(--dim);text-decoration:none}
+nav a:hover{color:var(--wave)}
+.onair{display:inline-flex;align-items:center;gap:10px;font:800 15px var(--display);letter-spacing:.2em;color:#fff;background:var(--air);padding:8px 16px;border-radius:8px;box-shadow:0 0 24px var(--air-glow),0 0 60px var(--air-glow);animation:air 3s ease-in-out infinite}
+@keyframes air{50%{box-shadow:0 0 12px var(--air-glow)}}
+.slab{background:rgba(18,17,21,.86);border-radius:28px;backdrop-filter:blur(4px)}
+.hero .wrap{padding-block:30px 70px}
+.hero .slab{padding:clamp(26px,5vw,60px);display:grid;grid-template-columns:1.1fr .9fr;gap:36px;align-items:center}
+h1{font:800 clamp(40px,5.4vw,70px)/.98 var(--display);letter-spacing:-.03em;margin:22px 0 18px;text-wrap:balance}
+h1 span{color:var(--wave)}
+.lede{font-size:19px;color:var(--dim);max-width:44ch;margin:0 0 26px}
+.btn{display:inline-flex;gap:10px;align-items:center;background:var(--text);color:#121115;font-weight:700;text-decoration:none;padding:15px 24px;border-radius:999px}
+.btn:hover{background:var(--wave)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+/* mic + live waveform */
+.mic{position:relative;display:grid;place-items:center;gap:20px}
+.capsule{width:130px;height:200px;border-radius:65px;background:repeating-linear-gradient(0deg,#5c5866 0 3px,#3a3740 3px 7px);border:6px solid #77727f;box-shadow:0 20px 40px -10px #000}
+.ring{width:190px;height:26px;border-radius:13px;border:6px solid #77727f;margin-top:-110px;position:relative;z-index:-1}
+.wave{display:flex;gap:5px;align-items:center;height:80px;margin-top:20px}
+.wave i{width:6px;border-radius:3px;background:var(--wave);animation:w 1s ease-in-out infinite alternate}
+@keyframes w{from{height:8px}to{height:var(--h)}}
+section{padding-block:60px}
+.sec{padding:clamp(22px,4vw,44px)}
+h2{font:800 clamp(30px,4.6vw,52px)/1 var(--display);letter-spacing:-.03em;margin:0 0 8px}
+.sub{color:var(--dim);max-width:62ch;margin:0 0 28px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}
+.card{background:#1c1b20;border:1px solid var(--line);border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:10px;transition:border-color .2s,transform .2s}
+.card:hover{border-color:var(--wave);transform:translateY(-3px)}
+.card .ico{width:54px;height:54px;border-radius:50%;background:#2b2931;display:grid;place-items:center;color:var(--wave)}
+.card h3{margin:0;font:700 21px/1.15 var(--display);letter-spacing:-.01em}
+.card p{margin:0;color:var(--dim);font-size:15px;flex:1}
+.fit{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--amber)}
+.buy{display:flex;justify-content:space-between;align-items:center;text-decoration:none;font-weight:700;color:#121115;background:var(--text);padding:11px 15px;border-radius:999px}
+.buy:hover{background:var(--wave)}
+.test{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center}
+.go{font:800 18px var(--display);border:0;border-radius:999px;padding:16px 26px;background:var(--air);color:#fff;cursor:pointer;box-shadow:0 0 30px var(--air-glow)}
+.go:disabled{opacity:.6;cursor:default}
+.lvl{height:26px;border-radius:13px;background:#2b2931;overflow:hidden;margin-top:14px}
+.lvl i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--wave),var(--amber) 70%,var(--air));transition:width .1s}
+.verdict{font:800 clamp(30px,4vw,44px)/1.05 var(--display);margin-bottom:8px}
+.small{font-size:14px;color:var(--dim)}
+footer .wrap{padding-block:30px}
+footer .slab{padding:22px 26px;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;font-size:14px;color:var(--dim)}
+footer strong{font:800 20px var(--display);color:var(--text)}
+@media (max-width:820px){.hero .slab,.test{grid-template-columns:1fr}nav{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="disclose">As an Amazon Associate I earn from qualifying purchases. Links may earn a commission at no extra cost to you.</div>
+<header><div class="wrap">
+  <a class="logo" href="#">Vocal Booth</a>
+  <nav><a href="#chain">Signal chain</a><a href="#roomtest">Room test</a></nav>
+</div></header>
+
+<div class="hero"><div class="wrap"><div class="slab">
+  <div>
+    <span class="onair"><i data-lucide="radio"></i>ON AIR</span>
+    <h1>Sound like a studio. <span>Record at home.</span></h1>
+    <p class="lede">Clean vocals and podcasts come from three things: the right mic for your room, a pop filter and a little treatment. Here's the whole signal chain.</p>
+    <a class="btn" href="#chain">Build my chain <i data-lucide="arrow-down"></i></a>
+  </div>
+  <div class="mic" aria-hidden="true">
+    <div class="capsule"></div><div class="ring"></div>
+    <div class="wave" id="wave"></div>
+  </div>
+</div></div></div>
+
+<section id="chain"><div class="wrap"><div class="slab sec">
+  <h2>The signal chain</h2>
+  <p class="sub">Each tag says what the item fixes. Untreated room? Start with a dynamic mic, not a condenser.</p>
+  <div class="grid">
+    <article class="card"><div class="ico"><i data-lucide="mic"></i></div><div class="fit">Fixes: noisy, echoey room</div><h3>Dynamic broadcast mic</h3><p>Picks up your voice and ignores the room. The podcaster's favorite for untreated spaces.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=dynamic+broadcast+microphone+xlr+usb&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+    <article class="card"><div class="ico"><i data-lucide="mic-vocal"></i></div><div class="fit">Fixes: dull, flat vocals</div><h3>Large-diaphragm condenser mic</h3><p>Airy, detailed singing vocals. It's sensitive, so use it in a quiet, treated room.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=large+diaphragm+condenser+microphone&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+    <article class="card"><div class="ico"><i data-lucide="circle-dot"></i></div><div class="fit">Fixes: P and B pops</div><h3>Pop filter</h3><p>A mesh screen two inches from the mic stops the bursts of air that clip your recording.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=microphone+pop+filter&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+    <article class="card"><div class="ico"><i data-lucide="panel-left"></i></div><div class="fit">Fixes: room echo</div><h3>Reflection filter shield</h3><p>A curved foam shield behind the mic. A mini booth on your desk.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=microphone+isolation+shield+reflection+filter&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+    <article class="card"><div class="ico"><i data-lucide="move-diagonal"></i></div><div class="fit">Fixes: desk thumps</div><h3>Boom arm with shock mount</h3><p>Holds the mic at mouth height and keeps keyboard bumps out of the recording.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=microphone+boom+arm+shock+mount&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+    <article class="card"><div class="ico"><i data-lucide="audio-lines"></i></div><div class="fit">Fixes: weak, noisy gain</div><h3>Audio interface</h3><p>Gives an XLR mic clean gain and phantom power. Two inputs covers an interview.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=usb+audio+interface+xlr&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+    <article class="card"><div class="ico"><i data-lucide="headphones"></i></div><div class="fit">Fixes: mic bleed</div><h3>Closed-back headphones</h3><p>Hear yourself and the backing track without it leaking into the mic.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=closed+back+headphones+recording&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+    <article class="card"><div class="ico"><i data-lucide="layers"></i></div><div class="fit">Fixes: echo on a budget</div><h3>Heavy sound blankets</h3><p>Thick moving blankets hung around you make a cheap closet booth that really works.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=sound+blanket+heavy+moving+blankets&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+  </div>
+</div></div></section>
+
+<section id="roomtest" style="padding-top:0"><div class="wrap"><div class="slab sec">
+  <h2>How quiet is your room?</h2>
+  <p class="sub">Stay silent for 4 seconds while we listen through your mic. The sound never leaves your device and nothing is recorded or saved.</p>
+  <div class="test">
+    <div>
+      <button class="go" id="go">● Start room test</button>
+      <div class="lvl" aria-hidden="true"><i id="bar"></i></div>
+      <div class="small" id="live">Level: waiting</div>
+    </div>
+    <div aria-live="polite">
+      <div class="verdict" id="verdict">Press start, then stay quiet.</div>
+      <div class="small" id="advice">Your browser will ask for microphone permission.</div>
+    </div>
+  </div>
+</div></div></section>
+
+<footer><div class="wrap"><div class="slab">
+  <div><strong>Vocal Booth</strong><br>Record clean at home.</div>
+  <div style="max-width:520px">As an Amazon Associate I earn from qualifying purchases. The room test is a rough guide based on your device's mic level. Prices and availability are set by Amazon.</div>
+</div></div></footer>
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script>
+lucide.createIcons();
+const wv=document.getElementById('wave');for(let i=0;i<22;i++){const e=document.createElement('i');e.style.cssText=`--h:${16+Math.abs(Math.sin(i*1.7))*60}px;animation-delay:${-(i*.13)}s`;wv.appendChild(e)}
+const go=document.getElementById('go');
+go.addEventListener('click',async()=>{
+  const v=document.getElementById('verdict'),adv=document.getElementById('advice'),live=document.getElementById('live'),bar=document.getElementById('bar');
+  let stream;try{stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}})}
+  catch(e){v.textContent='No mic access.';adv.textContent='Allow the microphone in your browser settings and try again, or skip the test: a dynamic mic is the safe choice for most homes.';return}
+  go.disabled=true;go.textContent='● Listening…';
+  const ac=new (window.AudioContext||window.webkitAudioContext)(),src=ac.createMediaStreamSource(stream),an=ac.createAnalyser();an.fftSize=2048;src.connect(an);
+  const buf=new Float32Array(an.fftSize),vals=[],t0=performance.now();
+  (function loop(){an.getFloatTimeDomainData(buf);let s=0;for(const x of buf)s+=x*x;const db=20*Math.log10(Math.sqrt(s/buf.length)+1e-9);vals.push(db);
+    live.textContent=`Level: ${db.toFixed(0)} dBFS`;bar.style.width=Math.max(0,Math.min(100,(db+80)*1.6))+'%';
+    if(performance.now()-t0<4000)requestAnimationFrame(loop);else{stream.getTracks().forEach(t=>t.stop());ac.close();
+      vals.sort((a,b)=>a-b);const med=vals[vals.length>>1];go.disabled=false;go.textContent='● Test again';
+      if(med<-60){v.textContent='Quiet. Condenser-ready.';adv.textContent='Your room is quiet enough for a condenser mic. Add a reflection filter to control echo.'}
+      else if(med<-45){v.textContent='Some background noise.';adv.textContent='A dynamic broadcast mic will ignore most of it. Turn off fans and close the window when recording.'}
+      else{v.textContent='Noisy room.';adv.textContent='Go with a dynamic mic held close, and record in a closet or under sound blankets.'}}})()});
+</script>
+<script src="../sfx.js" data-theme="vocal-booth"></script>
+</body>
+</html>

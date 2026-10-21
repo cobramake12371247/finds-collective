@@ -62,7 +62,7 @@ h2{font-family:var(--display);font-weight:500;font-size:clamp(34px,5vw,58px);lin
 .buy:hover{color:var(--rust);border-color:var(--rust)}
 .buy svg{width:14px;height:14px}
 .math{position:sticky;bottom:0;background:var(--navy);color:#fff;z-index:5;padding-bottom:env(safe-area-inset-bottom,0px)}
-.math .wrap{display:flex;justify-content:space-between;align-items:center;gap:20px;padding-block:14px;flex-wrap:wrap}
+.math .wrap{padding-left:max(72px,env(safe-area-inset-left,0px));display:flex;justify-content:space-between;align-items:center;gap:20px;padding-block:14px;flex-wrap:wrap}
 .eq{font-size:15px;color:#c8cfdd;font-variant-numeric:tabular-nums}
 .total{font-family:var(--display);font-size:34px;font-variant-numeric:tabular-nums}
 .total em{color:#f0b49a;font-style:italic}
@@ -156,5 +156,6 @@ function upd(){const t=cnt('top'),b=cnt('bottom'),d=cnt('dress'),s=cnt('shoes'),
   document.getElementById('eq').textContent=`(${t} tops × ${b} bottoms × ${s} shoes + ${d} dress × ${s} shoes) × ${l+1} layer option${l?'s':''}`;}
 document.querySelectorAll('.group input').forEach(i=>i.addEventListener('change',upd));upd();
 </script>
+<script src="../sfx.js" data-theme="capsule-30"></script>
 </body>
 </html>

@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>First Circuit</title>
+<meta name="description" content="Beginner electronics made friendly: starter kits, breadboards and sensors from Amazon, plus an LED resistor calculator that lights up.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700;800&family=Lexend+Mega:wght@700&display=swap">
+<style>
+/* Layout: a giant breadboard; colored jumper wires connect the sections; the LED calculator lights a real-looking LED */
+:root{
+  --board:#f4f2ec; --hole:#c9c4b8; --rail-r:#e54b3c; --rail-b:#2f6fd8; --ink:#22252b; --muted:#5f636c;
+  --w1:#e54b3c; --w2:#f5a623; --w3:#2fae66; --w4:#2f6fd8; --w5:#8b5cf6; --white:#ffffff;
+  --display:"Lexend Mega", "Arial Black", sans-serif; --body:"Lexend", system-ui, sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--ink);font:16px/1.65 var(--body);background-color:var(--board);
+  background-image:radial-gradient(circle,var(--hole) 3px,transparent 3.6px);background-size:26px 26px}
+.wrap{max-width:1140px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.rail{height:16px;background:linear-gradient(var(--rail-r) 0 3px,var(--board) 3px 13px,var(--rail-b) 13px)}
+.disclose{background:var(--ink);color:#e3e4e8;font-size:13px;text-align:center;padding-block:8px}
+header .wrap{display:flex;justify-content:space-between;align-items:center;padding-block:18px;gap:16px}
+.logo{font:700 18px var(--display);letter-spacing:-.04em;text-decoration:none;color:var(--ink);display:flex;gap:10px;align-items:center;background:var(--white);padding:8px 14px;border-radius:10px;box-shadow:0 3px 0 var(--hole)}
+.logo i{color:var(--w3)}
+nav{display:flex;gap:10px}
+nav a{color:var(--ink);text-decoration:none;font-weight:700;background:var(--white);padding:8px 14px;border-radius:999px;box-shadow:0 3px 0 var(--hole)}
+nav a:hover{background:var(--w2)}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding-block:40px 70px}
+.panel{background:var(--white);border-radius:22px;padding:clamp(24px,4vw,40px);box-shadow:0 6px 0 var(--hole)}
+h1{font:700 clamp(32px,4.8vw,58px)/1.05 var(--display);letter-spacing:-.06em;margin:0 0 18px;text-wrap:balance}
+h1 span{color:var(--w3)}
+.lede{font-size:18px;color:var(--muted);max-width:46ch;margin:0 0 24px}
+.btn{display:inline-flex;gap:10px;align-items:center;background:var(--ink);color:#fff;font-weight:700;text-decoration:none;padding:14px 22px;border-radius:999px;transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid var(--w4);outline-offset:3px}
+/* hero circuit: battery -> resistor -> LEDs with jumper wires */
+.ckt{position:relative;aspect-ratio:1/1;max-width:100%}
+.ckt svg{width:100%;height:100%}
+.wire{fill:none;stroke-width:9;stroke-linecap:round}
+.ledg{animation:glow 2.4s ease-in-out infinite}
+.ledg.d2{animation-delay:-.8s}.ledg.d3{animation-delay:-1.6s}
+@keyframes glow{0%,100%{opacity:.35}50%{opacity:1}}
+section{padding-block:60px}
+.head{display:inline-block;background:var(--white);border-radius:16px;padding:14px 22px;box-shadow:0 4px 0 var(--hole);margin-bottom:24px}
+h2{font:700 clamp(22px,3vw,34px)/1.15 var(--display);letter-spacing:-.05em;margin:0}
+.head p{margin:6px 0 0;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:30px 22px}
+.mod{position:relative;background:var(--white);border-radius:18px;padding:30px 22px 22px;display:flex;flex-direction:column;gap:10px;box-shadow:0 5px 0 var(--hole);transition:transform .2s}
+.mod:hover{transform:translateY(-4px) rotate(-.5deg)}
+/* two jumper wires plugged into the top of every module */
+.mod::before,.mod::after{content:"";position:absolute;top:-16px;width:34px;height:30px;border:7px solid var(--c,var(--w1));border-bottom:0;border-radius:20px 20px 0 0}
+.mod::before{left:22px}.mod::after{left:66px;border-color:var(--c2,var(--w4))}
+.mod .ico{color:var(--c,var(--w1))}
+.mod .ico svg{width:30px;height:30px}
+.mod h3{margin:0;font-size:19px;line-height:1.25;font-weight:700}
+.mod p{margin:0;color:var(--muted);font-size:15px;flex:1}
+.lvl{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.buy{display:flex;justify-content:space-between;align-items:center;text-decoration:none;font-weight:700;color:#fff;background:var(--ink);padding:12px 16px;border-radius:12px}
+.buy:hover{background:var(--w4)}
+.calc{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center}
+.ctrl label{display:block;font-weight:700;margin:16px 0 8px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opts button{font:700 15px var(--body);border:2px solid var(--ink);background:var(--white);color:var(--ink);padding:9px 16px;border-radius:999px;cursor:pointer}
+.opts button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.opts button i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.stage{text-align:center}
+.led{width:120px;height:170px;margin:0 auto;position:relative}
+.dome{position:absolute;left:10px;right:10px;top:0;height:120px;border-radius:50px 50px 8px 8px;background:var(--lc);opacity:.9;box-shadow:0 0 60px 18px var(--lc);transition:background .3s,box-shadow .3s}
+.dome::after{content:"";position:absolute;left:18px;top:14px;width:20px;height:44px;border-radius:12px;background:rgba(255,255,255,.55)}
+.legs{position:absolute;left:38px;right:38px;top:120px;bottom:0;display:flex;justify-content:space-between}
+.legs i{width:6px;background:#a9aeb5}.legs i:last-child{height:85%}
+.ohm{font:700 clamp(40px,6vw,64px)/1 var(--display);letter-spacing:-.06em;margin-top:24px;font-variant-numeric:tabular-nums}
+.math{color:var(--muted);font-size:15px;margin-top:8px}
+footer .wrap{padding-block:34px;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;font-size:14px;color:var(--muted)}
+footer strong{font:700 16px var(--display);letter-spacing:-.05em;color:var(--ink)}
+@media (max-width:820px){.hero .wrap,.calc{grid-template-columns:1fr}nav{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="disclose">As an Amazon Associate I earn from qualifying purchases. Links may earn a commission at no extra cost to you.</div>
+<div class="rail" aria-hidden="true"></div>
+<header><div class="wrap">
+  <a class="logo" href="#"><i data-lucide="zap"></i>First Circuit</a>
+  <nav><a href="#kit">Starter kit</a><a href="#led">LED calculator</a></nav>
+</div></header>
+
+<div class="hero"><div class="wrap">
+  <div class="panel">
+    <h1>Make your first LED <span>blink</span> this weekend.</h1>
+    <p class="lede">Electronics is easier than it looks. Start with a breadboard, a few parts and no soldering. Here's exactly what to buy and why.</p>
+    <a class="btn" href="#kit">Get the starter kit <i data-lucide="arrow-down"></i></a>
+  </div>
+  <div class="ckt" aria-hidden="true">
+    <svg viewBox="0 0 400 400">
+      <rect x="40" y="60" width="90" height="150" rx="12" fill="#22252b"/><rect x="66" y="44" width="38" height="20" rx="4" fill="#22252b"/>
+      <text x="62" y="148" fill="#fff" font-family="Lexend" font-weight="700" font-size="34">9V</text>
+      <path class="wire" stroke="#e54b3c" d="M85 60 C85 10 220 20 230 90"/>
+      <rect x="205" y="90" width="50" height="80" rx="20" fill="#d7b984"/><rect x="205" y="108" width="50" height="8" fill="#7a4a1c"/><rect x="205" y="124" width="50" height="8" fill="#111"/><rect x="205" y="140" width="50" height="8" fill="#d9381e"/>
+      <path class="wire" stroke="#f5a623" d="M230 170 C230 230 140 220 120 270"/>
+      <path class="wire" stroke="#2fae66" d="M230 170 C240 240 220 250 220 280"/>
+      <path class="wire" stroke="#8b5cf6" d="M230 170 C250 230 310 230 320 270"/>
+      <g class="ledg"><circle cx="120" cy="290" r="40" fill="#ff4d4d" opacity=".35"/><rect x="100" y="270" width="40" height="46" rx="18" fill="#ff4d4d"/></g>
+      <g class="ledg d2"><circle cx="220" cy="300" r="40" fill="#3ddc84" opacity=".35"/><rect x="200" y="280" width="40" height="46" rx="18" fill="#3ddc84"/></g>
+      <g class="ledg d3"><circle cx="320" cy="290" r="40" fill="#4d8dff" opacity=".35"/><rect x="300" y="270" width="40" height="46" rx="18" fill="#4d8dff"/></g>
+      <path class="wire" stroke="#2f6fd8" d="M120 316 C120 380 60 370 60 210"/>
+    </svg>
+  </div>
+</div></div>
+
+<section id="kit"><div class="wrap">
+  <div class="head"><h2>The starter kit</h2><p>Buy in this order. The first three are enough for your first ten projects.</p></div>
+  <div class="grid">
+    <article class="mod" style="--c:var(--w1);--c2:var(--w4)"><div class="ico"><i data-lucide="cpu"></i></div><div class="lvl">Start here</div><h3>Microcontroller starter kit</h3><p>A board you program over USB, plus a box of parts and a project guide. The single best first buy.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=microcontroller+starter+kit+beginner&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+    <article class="mod" style="--c:var(--w2);--c2:var(--w3)"><div class="ico"><i data-lucide="grid-3x3"></i></div><div class="lvl">Start here</div><h3>Breadboards and jumper wires</h3><p>Push parts in, pull them out. No solder, so mistakes cost nothing.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=solderless+breadboard+jumper+wires+kit&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+    <article class="mod" style="--c:var(--w3);--c2:var(--w5)"><div class="ico"><i data-lucide="lightbulb"></i></div><div class="lvl">Start here</div><h3>LED and resistor assortment</h3><p>Hundreds of LEDs and resistors in labeled drawers. Use the calculator below to pick the right resistor.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=led+and+resistor+assortment+kit&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+    <article class="mod" style="--c:var(--w4);--c2:var(--w1)"><div class="ico"><i data-lucide="radar"></i></div><div class="lvl">Next</div><h3>Sensor module kit</h3><p>Temperature, light, motion and distance sensors that plug straight into the breadboard.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=sensor+module+kit&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+    <article class="mod" style="--c:var(--w5);--c2:var(--w2)"><div class="ico"><i data-lucide="monitor"></i></div><div class="lvl">Next</div><h3>Single-board computer kit</h3><p>A tiny full computer for bigger projects: a home server, a retro game box or a weather station.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=single+board+computer+starter+kit&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+    <article class="mod" style="--c:var(--w1);--c2:var(--w3)"><div class="ico"><i data-lucide="gauge"></i></div><div class="lvl">Next</div><h3>Beginner multimeter</h3><p>Measure voltage and check connections. It answers the question "why isn't this working?"</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=digital+multimeter+beginner&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+    <article class="mod" style="--c:var(--w2);--c2:var(--w4)"><div class="ico"><i data-lucide="scissors"></i></div><div class="lvl">Later</div><h3>Wire stripper and mini tool set</h3><p>Strippers, flush cutters and small pliers for when you start making your own wires.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=electronics+wire+stripper+tool+set&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+    <article class="mod" style="--c:var(--w3);--c2:var(--w1)"><div class="ico"><i data-lucide="battery-charging"></i></div><div class="lvl">Later</div><h3>Adjustable bench power supply</h3><p>Dial in exact voltages with current limiting, so a wiring mistake doesn't cook your parts.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=adjustable+dc+bench+power+supply&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+  </div>
+</div></section>
+
+<section id="led" style="padding-top:0"><div class="wrap">
+  <div class="panel">
+    <h2>Which resistor does my LED need?</h2>
+    <div class="calc">
+      <div class="ctrl">
+        <label>Power supply</label>
+        <div class="opts" id="vs"><button data-v="3.3">3.3 V</button><button data-v="5" aria-pressed="true">5 V</button><button data-v="9">9 V</button><button data-v="12">12 V</button></div>
+        <label>LED color</label>
+        <div class="opts" id="lc"><button data-v="2.0" data-c="#ff3b3b" aria-pressed="true"><i style="background:#ff3b3b"></i>Red</button><button data-v="2.1" data-c="#ffc21a"><i style="background:#ffc21a"></i>Yellow</button><button data-v="2.2" data-c="#3ddc84"><i style="background:#3ddc84"></i>Green</button><button data-v="3.1" data-c="#4d8dff"><i style="background:#4d8dff"></i>Blue</button><button data-v="3.2" data-c="#f4f6ff"><i style="background:#e7eaf4"></i>White</button></div>
+        <label>Current</label>
+        <div class="opts" id="ia"><button data-v="10">10 mA (dimmer, safer)</button><button data-v="20" aria-pressed="true">20 mA (standard)</button></div>
+      </div>
+      <div class="stage" aria-live="polite">
+        <div class="led" id="ledv" style="--lc:#ff3b3b"><div class="dome"></div><div class="legs"><i></i><i></i></div></div>
+        <div class="ohm" id="ohm">150 Ω</div>
+        <div class="math" id="math"></div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<div class="rail" aria-hidden="true"></div>
+<footer><div class="wrap">
+  <div><strong>First Circuit</strong><br>Beginner electronics, step by step.</div>
+  <div style="max-width:520px">As an Amazon Associate I earn from qualifying purchases. Forward voltages are typical values; check your LED's datasheet. Prices and availability are set by Amazon.</div>
+</div></footer>
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script>
+lucide.createIcons();
+const E12=[1,1.2,1.5,1.8,2.2,2.7,3.3,3.9,4.7,5.6,6.8,8.2];
+function nextE12(r){let d=Math.pow(10,Math.floor(Math.log10(r)));for(;;){for(const e of E12){if(e*d>=r-1e-9)return e*d}d*=10}}
+const sel=id=>document.querySelector(`#${id} [aria-pressed="true"]`);
+['vs','lc','ia'].forEach(id=>document.querySelectorAll(`#${id} button`).forEach(b=>{if(!b.hasAttribute('aria-pressed'))b.setAttribute('aria-pressed','false');
+  b.addEventListener('click',()=>{document.querySelectorAll(`#${id} button`).forEach(x=>x.setAttribute('aria-pressed',x===b));upd()})}));
+function upd(){const vs=+sel('vs').dataset.v,vf=+sel('lc').dataset.v,i=+sel('ia').dataset.v/1000,col=sel('lc').dataset.c;
+  document.getElementById('ledv').style.setProperty('--lc',col);
+  if(vs<=vf){document.getElementById('ohm').textContent='Too low';document.getElementById('math').textContent=`A ${vs} V supply can't light an LED that needs ${vf} V.`;return}
+  const r=(vs-vf)/i,std=nextE12(r),p=i*i*std*1000;
+  document.getElementById('ohm').textContent=(std>=1000?+(std/1000).toFixed(2)+' kΩ':Math.round(std)+' Ω');
+  document.getElementById('math').textContent=`(${vs} V − ${vf} V) ÷ ${i*1000} mA = ${r.toFixed(0)} Ω → next standard value up. Uses ${p.toFixed(0)} mW, so a ¼ W resistor is fine.`}
+upd();
+</script>
+<script src="../sfx.js" data-theme="first-circuit"></script>
+</body>
+</html>

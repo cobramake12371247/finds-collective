@@ -196,5 +196,6 @@ lucide.createIcons();
 const boxes=[...document.querySelectorAll('.list input')];
 boxes.forEach(b=>b.addEventListener('change',()=>{const n=boxes.filter(x=>x.checked).length;document.getElementById('done').textContent=n===boxes.length?'deposit: safe ✓':n?`${n} of ${boxes.length} done`:''}));
 </script>
+<script src="../sfx.js" data-theme="no-drill-nest"></script>
 </body>
 </html>

@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trace &amp; Solder</title>
+<meta name="description" content="Soldering and PCB tools for electronics builders, with a resistor color code calculator. Hand-picked from Amazon.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: the whole page is a circuit board: solder mask, copper traces, silkscreen labels; picks are ICs, buttons are gold pads */
+:root{
+  --mask:#0d3b2a; --mask-2:#11503a; --mask-3:#0a2c20; --copper:#c8893f; --gold:#e3b75a; --gold-2:#f2d084;
+  --silk:#eef3ee; --dim:#9cc2ae; --chip:#141716; --led:#ff3b30;
+  --mono:"IBM Plex Mono", ui-monospace, monospace; --body:"IBM Plex Sans", system-ui, sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--silk);font:16px/1.6 var(--body);background-color:var(--mask);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cg fill='none' stroke='%23175c43' stroke-width='3'%3E%3Cpath d='M0 40h70l30 30h60l40-40h40'/%3E%3Cpath d='M0 150h40l40-40h50'/%3E%3Cpath d='M120 240v-60l30-30h90'/%3E%3Cpath d='M60 240v-40l-20-20V150'/%3E%3Cpath d='M200 0v60l-20 20v40'/%3E%3C/g%3E%3Cg fill='%23175c43'%3E%3Ccircle cx='70' cy='40' r='6'/%3E%3Ccircle cx='160' cy='70' r='6'/%3E%3Ccircle cx='130' cy='110' r='6'/%3E%3Ccircle cx='150' cy='150' r='6'/%3E%3Ccircle cx='180' cy='120' r='6'/%3E%3C/g%3E%3C/svg%3E")}
+.wrap{max-width:1160px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.disclose{background:var(--mask-3);color:var(--dim);font:12px var(--mono);text-align:center;padding-block:8px;border-bottom:2px solid var(--copper)}
+header .wrap{display:flex;justify-content:space-between;align-items:center;padding-block:18px;gap:16px}
+.logo{font:700 20px var(--mono);color:var(--silk);text-decoration:none;display:flex;gap:10px;align-items:center;letter-spacing:.02em}
+.logo b{display:inline-block;width:14px;height:14px;border-radius:50%;background:var(--led);box-shadow:0 0 12px var(--led);animation:led 1.6s steps(1) infinite}
+@keyframes led{50%{opacity:.25;box-shadow:none}}
+nav{display:flex;gap:24px;font:500 14px var(--mono)}
+nav a{color:var(--dim);text-decoration:none}
+nav a:hover{color:var(--gold)}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;padding-block:40px 80px}
+.ref{font:600 13px var(--mono);color:var(--gold);letter-spacing:.1em}
+h1{font:700 clamp(36px,5.6vw,68px)/1.02 var(--mono);letter-spacing:-.03em;margin:14px 0 20px;text-wrap:balance}
+h1 span{color:var(--gold)}
+.lede{color:var(--dim);font-size:18px;max-width:48ch;margin:0 0 28px}
+.pad-btn{display:inline-flex;gap:10px;align-items:center;font:700 15px var(--mono);color:#1b1306;text-decoration:none;padding:15px 24px;border-radius:999px;
+  background:radial-gradient(circle at 30% 30%,var(--gold-2),var(--gold) 50%,#b8862f);box-shadow:0 0 0 4px var(--mask-2),0 0 0 6px var(--copper);transition:filter .2s}
+.pad-btn:hover{filter:brightness(1.12)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--gold-2);outline-offset:4px}
+/* hero board with a signal pulse running along the traces */
+.board{position:relative;aspect-ratio:1/1;max-width:100%;background:var(--mask-2);border-radius:18px;border:3px solid #0a2c20;box-shadow:inset 0 0 0 10px var(--mask),0 30px 60px -20px rgba(0,0,0,.6)}
+.board svg{position:absolute;inset:0;width:100%;height:100%}
+.trace{fill:none;stroke:var(--copper);stroke-width:5;stroke-linecap:round;stroke-linejoin:round;opacity:.85}
+.pulse{fill:none;stroke:var(--gold-2);stroke-width:5;stroke-linecap:round;stroke-dasharray:40 600;animation:run 2.8s linear infinite;filter:drop-shadow(0 0 6px var(--gold-2))}
+.pulse.b{animation-delay:-1.4s}
+@keyframes run{from{stroke-dashoffset:640}to{stroke-dashoffset:0}}
+.ic{fill:var(--chip)}
+.pin{fill:#c9cdd0}
+.silk{fill:var(--silk);font:600 13px var(--mono)}
+section{padding-block:70px}
+h2{font:700 clamp(26px,3.8vw,42px)/1.1 var(--mono);letter-spacing:-.02em;margin:0 0 8px}
+.sub{color:var(--dim);max-width:62ch;margin:0 0 30px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:34px 26px}
+/* each pick is a DIP chip with pins on both sides */
+.chip{position:relative;background:var(--chip);border-radius:6px;padding:24px 22px 20px;display:flex;flex-direction:column;gap:10px;box-shadow:0 14px 26px -12px rgba(0,0,0,.7);transition:transform .2s}
+.chip::before,.chip::after{content:"";position:absolute;top:18px;bottom:18px;width:10px;background:repeating-linear-gradient(#c9cdd0 0 8px,transparent 8px 22px)}
+.chip::before{left:-10px}.chip::after{right:-10px}
+.chip:hover{transform:translateY(-4px)}
+.notch{position:absolute;top:-1px;left:50%;width:26px;height:13px;margin-left:-13px;background:var(--mask);border-radius:0 0 13px 13px}
+.id{font:600 12px var(--mono);color:var(--gold);letter-spacing:.12em}
+.chip svg.lucide{width:30px;height:30px;color:var(--silk)}
+.chip h3{margin:0;font:600 18px/1.25 var(--mono)}
+.chip p{margin:0;color:#a9b3ae;font-size:15px;flex:1}
+.spec{font:12px var(--mono);color:var(--dim);border-top:1px dashed #2b302e;padding-top:8px}
+.buy{display:flex;justify-content:space-between;align-items:center;text-decoration:none;font:700 14px var(--mono);color:#1b1306;padding:11px 14px;border-radius:6px;background:linear-gradient(var(--gold-2),var(--gold))}
+.buy:hover{filter:brightness(1.1)}
+/* resistor calculator */
+.calc{background:var(--mask-3);border:2px solid var(--copper);border-radius:16px;padding:clamp(22px,4vw,40px)}
+.res{display:flex;align-items:center;justify-content:center;margin:10px 0 28px;overflow-x:auto}
+.lead{width:clamp(30px,8vw,90px);height:6px;background:#c9cdd0;flex:none}
+.body{position:relative;width:min(380px,64vw);height:96px;flex:none;border-radius:44px;background:linear-gradient(#e9d3a6,#d7b984 60%,#c4a26c);display:flex;align-items:stretch;justify-content:space-between;padding-inline:15%}
+.band{width:8%;transition:background .2s}
+.band.t{margin-left:14%}
+.pickers{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.pickers label{display:block;font:600 12px var(--mono);color:var(--dim);margin-bottom:6px;letter-spacing:.08em;text-transform:uppercase}
+.sw{display:flex;flex-wrap:wrap;gap:6px}
+.sw button{width:30px;height:30px;border-radius:6px;border:2px solid transparent;cursor:pointer}
+.sw button[aria-pressed="true"]{border-color:var(--silk);transform:scale(1.12)}
+.out{margin-top:28px;font:700 clamp(34px,6vw,60px)/1 var(--mono);color:var(--gold);font-variant-numeric:tabular-nums;text-align:center}
+.out small{display:block;font:500 16px var(--mono);color:var(--dim);margin-top:10px}
+footer{background:var(--mask-3);border-top:2px solid var(--copper);color:var(--dim);font-size:14px}
+footer .wrap{padding-block:34px;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between}
+footer strong{font:700 16px var(--mono);color:var(--silk)}
+@media (max-width:820px){.hero .wrap{grid-template-columns:1fr}nav{display:none}.pickers{grid-template-columns:1fr 1fr}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="disclose">// As an Amazon Associate I earn from qualifying purchases. Links may earn a commission at no extra cost to you.</div>
+<header><div class="wrap">
+  <a class="logo" href="#"><b aria-hidden="true"></b>TRACE&amp;SOLDER</a>
+  <nav><a href="#bench">BENCH</a><a href="#ohms">RESISTOR CALC</a></nav>
+</div></header>
+
+<div class="hero"><div class="wrap">
+  <div>
+    <div class="ref">REV 2.0 · BENCH KIT</div>
+    <h1>Clean joints. <span>Zero</span> cold solder.</h1>
+    <p class="lede">The bench tools that make PCB work easier: steady heat, good flux, a meter you trust and fresh air while you work.</p>
+    <a class="pad-btn" href="#bench">Populate the board <i data-lucide="arrow-down"></i></a>
+  </div>
+  <div class="board" aria-hidden="true">
+    <svg viewBox="0 0 400 400">
+      <path class="trace" d="M40 80h90l40 40h80l30-30h80"/>
+      <path class="trace" d="M40 300h60l50-50h60l40 40h110"/>
+      <path class="trace" d="M200 120v130"/>
+      <path class="pulse" d="M40 80h90l40 40h80l30-30h80"/>
+      <path class="pulse b" d="M40 300h60l50-50h60l40 40h110"/>
+      <rect class="ic" x="150" y="160" width="100" height="70" rx="6"/>
+      <g class="pin"><rect x="156" y="150" width="8" height="10"/><rect x="176" y="150" width="8" height="10"/><rect x="196" y="150" width="8" height="10"/><rect x="216" y="150" width="8" height="10"/><rect x="236" y="150" width="8" height="10"/>
+      <rect x="156" y="230" width="8" height="10"/><rect x="176" y="230" width="8" height="10"/><rect x="196" y="230" width="8" height="10"/><rect x="216" y="230" width="8" height="10"/><rect x="236" y="230" width="8" height="10"/></g>
+      <text class="silk" x="160" y="200">U1  MCU</text>
+      <circle cx="40" cy="80" r="11" fill="#e3b75a"/><circle cx="360" cy="90" r="11" fill="#e3b75a"/><circle cx="40" cy="300" r="11" fill="#e3b75a"/><circle cx="360" cy="290" r="11" fill="#e3b75a"/>
+      <rect x="70" y="330" width="60" height="22" rx="4" fill="#d7b984"/><rect x="84" y="330" width="6" height="22" fill="#7a4a1c"/><rect x="96" y="330" width="6" height="22" fill="#111"/><rect x="108" y="330" width="6" height="22" fill="#d9381e"/>
+      <text class="silk" x="74" y="372">R1</text>
+      <circle cx="320" cy="340" r="14" fill="#ff3b30" opacity=".9"/><text class="silk" x="306" y="376">D1</text>
+    </svg>
+  </div>
+</div></div>
+
+<section id="bench"><div class="wrap">
+  <h2>// BILL OF MATERIALS</h2>
+  <p class="sub">Eight tools for a complete soldering bench. Each one is labeled like a part on the board.</p>
+  <div class="grid">
+    <article class="chip"><span class="notch"></span><div class="id">U1</div><i data-lucide="thermometer"></i><h3>Temperature-controlled soldering station</h3><p>Set it to around 330–350 °C for lead-free solder and it holds steady. This is the upgrade that fixes most bad joints.</p><div class="spec">TEMP: ADJUSTABLE · TIPS: SWAPPABLE</div>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=temperature+controlled+soldering+station&tag=YOURTAG-20">SOURCE PART ↗</a></article>
+    <article class="chip"><span class="notch"></span><div class="id">U2</div><i data-lucide="cable"></i><h3>Rosin-core solder wire</h3><p>Thin 0.6–0.8 mm wire is easiest for through-hole and fine pitch work.</p><div class="spec">DIA: 0.6–0.8 MM · CORE: ROSIN</div>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=rosin+core+solder+wire+0.8mm&tag=YOURTAG-20">SOURCE PART ↗</a></article>
+    <article class="chip"><span class="notch"></span><div class="id">U3</div><i data-lucide="droplet"></i><h3>No-clean flux pen</h3><p>A dab of flux makes solder flow instead of balling up. Essential for surface-mount parts.</p><div class="spec">TYPE: NO-CLEAN · FORMAT: PEN</div>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=no+clean+flux+pen&tag=YOURTAG-20">SOURCE PART ↗</a></article>
+    <article class="chip"><span class="notch"></span><div class="id">U4</div><i data-lucide="undo-2"></i><h3>Desoldering wick and pump</h3><p>For the joint you need to undo. Wick for tidy pads, pump for through-hole holes.</p><div class="spec">WICK: 2–3 MM · PUMP: SPRING</div>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=desoldering+wick+and+pump+kit&tag=YOURTAG-20">SOURCE PART ↗</a></article>
+    <article class="chip"><span class="notch"></span><div class="id">U5</div><i data-lucide="hand"></i><h3>Helping hands with magnifier</h3><p>Flexible arms hold the board and the wire, so both your hands are free for the iron.</p><div class="spec">ARMS: 4+ · LENS: LED-LIT</div>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=helping+hands+soldering+magnifier+led&tag=YOURTAG-20">SOURCE PART ↗</a></article>
+    <article class="chip"><span class="notch"></span><div class="id">U6</div><i data-lucide="square"></i><h3>Silicone soldering mat</h3><p>Heat resistant, with small compartments so screws and resistors stop rolling away.</p><div class="spec">HEAT: 500 °C RATED · ANTI-SLIP</div>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=silicone+soldering+mat&tag=YOURTAG-20">SOURCE PART ↗</a></article>
+    <article class="chip"><span class="notch"></span><div class="id">U7</div><i data-lucide="gauge"></i><h3>Auto-ranging multimeter</h3><p>Check continuity, voltage and resistance. Auto-ranging means fewer knob turns.</p><div class="spec">MODES: V / Ω / A / CONT</div>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=auto+ranging+digital+multimeter&tag=YOURTAG-20">SOURCE PART ↗</a></article>
+    <article class="chip"><span class="notch"></span><div class="id">U8</div><i data-lucide="fan"></i><h3>Fume extractor fan</h3><p>Pulls rosin smoke away from your face with a carbon filter. Your lungs will thank you.</p><div class="spec">FILTER: ACTIVATED CARBON</div>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=solder+fume+extractor&tag=YOURTAG-20">SOURCE PART ↗</a></article>
+  </div>
+</div></section>
+
+<section id="ohms" style="padding-top:0"><div class="wrap">
+  <h2>// RESISTOR COLOR CODE</h2>
+  <p class="sub">Tap the colors on your 4-band resistor and read its value.</p>
+  <div class="calc">
+    <div class="res" aria-hidden="true"><span class="lead"></span><div class="body"><i class="band" id="b0"></i><i class="band" id="b1"></i><i class="band" id="b2"></i><i class="band t" id="b3"></i></div><span class="lead"></span></div>
+    <div class="pickers" id="pickers"></div>
+    <div class="out" aria-live="polite"><span id="val">1 kΩ</span><small id="tol">±5% tolerance</small></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div><strong>TRACE&amp;SOLDER</strong><br>Tools for clean PCB work.</div>
+  <div style="max-width:520px">As an Amazon Associate I earn from qualifying purchases. Solder in a ventilated space and wear eye protection. Prices and availability are set by Amazon.</div>
+</div></footer>
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script>
+lucide.createIcons();
+const C={black:['#111',0,1],brown:['#7a4a1c',1,10,1],red:['#d9381e',2,100,2],orange:['#f08a24',3,1e3],yellow:['#f2d22e',4,1e4],green:['#2f9e44',5,1e5,.5],blue:['#2f6fd8',6,1e6,.25],violet:['#8b4fd1',7,1e7,.1],grey:['#8d9196',8,null,.05],white:['#f5f5f5',9],gold:['#d4a83a',null,.1,5],silver:['#c0c4c8',null,.01,10]};
+const bands=[{n:'1st digit',k:Object.keys(C).filter(c=>C[c][1]!==null&&c!=='black'),v:'brown'},{n:'2nd digit',k:Object.keys(C).filter(c=>C[c][1]!==null),v:'black'},{n:'Multiplier',k:Object.keys(C).filter(c=>C[c][2]),v:'red'},{n:'Tolerance',k:Object.keys(C).filter(c=>C[c][3]),v:'gold'}];
+const P=document.getElementById('pickers');
+bands.forEach((b,i)=>{const d=document.createElement('div');d.innerHTML=`<label>${b.n}</label><div class="sw"></div>`;
+  b.k.forEach(c=>{const btn=document.createElement('button');btn.style.background=C[c][0];btn.title=c;btn.setAttribute('aria-label',`${b.n}: ${c}`);btn.setAttribute('aria-pressed',c===b.v);
+    btn.onclick=()=>{b.v=c;d.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===btn));upd()};d.querySelector('.sw').appendChild(btn)});P.appendChild(d)});
+function fmt(o){if(o>=1e6)return +(o/1e6).toPrecision(3)+' MΩ';if(o>=1e3)return +(o/1e3).toPrecision(3)+' kΩ';return +o.toPrecision(3)+' Ω'}
+function upd(){bands.forEach((b,i)=>document.getElementById('b'+i).style.background=C[b.v][0]);
+  const o=(C[bands[0].v][1]*10+C[bands[1].v][1])*C[bands[2].v][2];
+  document.getElementById('val').textContent=fmt(o);document.getElementById('tol').textContent=`±${C[bands[3].v][3]}% tolerance`}
+upd();
+</script>
+<script src="../sfx.js" data-theme="trace-and-solder"></script>
+</body>
+</html>

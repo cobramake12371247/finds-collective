@@ -163,5 +163,6 @@ lucide.createIcons();
 const tb=document.querySelectorAll('.tiers button'),cards=document.querySelectorAll('.card');
 tb.forEach(b=>b.addEventListener('click',()=>{tb.forEach(x=>x.setAttribute('aria-pressed',x===b));cards.forEach(c=>c.classList.toggle('off',+c.dataset.l>+b.dataset.l))}));
 </script>
+<script src="../sfx.js" data-theme="desk-setup-lab"></script>
 </body>
 </html>

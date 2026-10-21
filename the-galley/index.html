@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Galley</title>
+<meta name="description" content="Small-kitchen finds that free up counter space. Hand-picked Amazon gadgets for tiny kitchens, apartments and galley layouts.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Instrument+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: subway-tile wall hero, then a "shelf" grid of picks and a counter-space calculator */
+:root{
+  --tile:#eef3f1; --grout:#d7e1dd; --sage:#2f5d50; --sage-2:#3f7566;
+  --butter:#f2c94c; --tomato:#e2553f; --ink:#1d2a26; --muted:#5b6b66; --card:#ffffff;
+  --display:"Young Serif", Georgia, serif; --body:"Instrument Sans", system-ui, sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--tile);color:var(--ink);font:16px/1.6 var(--body)}
+a{color:inherit}
+.wrap{max-width:1140px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.disclose{background:var(--sage);color:#e8f1ee;font-size:13px;text-align:center;padding-block:8px}
+header .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:18px}
+.logo{font-family:var(--display);font-size:26px;text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo i{width:38px;height:38px;border-radius:50%;background:var(--tomato);display:grid;place-items:center;color:#fff}
+nav{display:flex;gap:22px;font-weight:600;font-size:15px}
+nav a{text-decoration:none}
+nav a:hover{color:var(--tomato)}
+.hero{background:
+  linear-gradient(var(--grout) 2px,transparent 2px) 0 0/72px 36px,
+  linear-gradient(90deg,var(--grout) 2px,transparent 2px) 0 0/72px 72px,
+  linear-gradient(90deg,var(--grout) 2px,transparent 2px) 36px 36px/72px 72px,
+  #f7faf9;border-block:1px solid var(--grout)}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding-block:64px}
+.eyebrow{text-transform:uppercase;letter-spacing:.14em;font-size:12px;font-weight:700;color:var(--sage-2)}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(40px,6vw,68px);line-height:1.02;margin:10px 0 18px;text-wrap:balance}
+h1 em{font-style:normal;background:linear-gradient(transparent 62%,var(--butter) 62%)}
+.lede{font-size:19px;color:var(--muted);max-width:52ch;margin:0 0 28px}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--tomato);color:#fff;text-decoration:none;font-weight:700;padding:14px 22px;border-radius:999px;transition:transform .15s,box-shadow .15s;box-shadow:0 6px 0 #b63e2c}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 0 #b63e2c}
+.btn:focus-visible,.chip:focus-visible,.buy:focus-visible{outline:3px solid var(--butter);outline-offset:3px}
+.ghost{margin-left:14px;font-weight:600}
+/* shelf illustration */
+.shelf{position:relative;height:320px;max-width:100%}
+.board{position:absolute;left:0;right:0;height:14px;background:#b98a5e;border-radius:4px;box-shadow:0 10px 18px rgba(29,42,38,.18)}
+.b1{top:140px}.b2{top:290px}
+.jar{position:absolute;bottom:auto;border-radius:12px 12px 16px 16px;border:3px solid rgba(29,42,38,.12)}
+.jar::before{content:"";position:absolute;left:10%;right:10%;top:-12px;height:12px;border-radius:6px 6px 0 0;background:var(--sage)}
+.j1{left:6%;top:56px;width:70px;height:84px;background:linear-gradient(#fff 40%,#f2d28a 40%)}
+.j2{left:30%;top:36px;width:80px;height:104px;background:linear-gradient(#fff 25%,#e9b27a 25%)}
+.j3{left:57%;top:70px;width:60px;height:70px;background:linear-gradient(#fff 50%,#9cc3a9 50%)}
+.j4{left:78%;top:50px;width:66px;height:90px;background:linear-gradient(#fff 35%,#f6efe0 35%)}
+.pot{position:absolute;left:12%;top:200px;width:120px;height:90px;background:var(--tomato);border-radius:0 0 40px 40px}
+.pot::before{content:"";position:absolute;left:-10px;right:-10px;top:-10px;height:14px;background:#c94530;border-radius:8px}
+.knives{position:absolute;left:52%;top:184px;width:150px;height:16px;background:#3a3f3d;border-radius:8px}
+.knives span{position:absolute;top:16px;width:10px;height:70px;background:linear-gradient(#cfd6d4,#9aa5a2);border-radius:0 0 6px 6px}
+.tag{position:absolute;right:0;top:0;background:var(--butter);font-weight:700;font-size:13px;padding:8px 12px;border-radius:10px;transform:rotate(4deg);box-shadow:0 4px 10px rgba(0,0,0,.08)}
+section{padding-block:72px}
+h2{font-family:var(--display);font-weight:400;font-size:clamp(30px,4vw,44px);margin:0 0 8px;text-wrap:balance}
+.sub{color:var(--muted);margin:0 0 28px;max-width:60ch}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px}
+.chip{border:2px solid var(--sage);background:transparent;color:var(--sage);font:600 14px var(--body);padding:8px 16px;border-radius:999px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--sage);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:22px}
+.card{background:var(--card);border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:12px;border:1px solid var(--grout);transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-4px);box-shadow:0 18px 30px rgba(29,42,38,.10)}
+.ico{width:64px;height:64px;border-radius:16px;display:grid;place-items:center;background:var(--tile);color:var(--sage)}
+.ico svg{width:30px;height:30px}
+.card h3{margin:0;font-size:19px;line-height:1.25}
+.card p{margin:0;color:var(--muted);font-size:15px;flex:1}
+.meta{display:flex;flex-wrap:wrap;gap:8px;font-size:12px;font-weight:700}
+.meta span{background:var(--tile);padding:4px 10px;border-radius:999px}
+.meta .free{background:#fff3cf;color:#7a5a00}
+.buy{display:flex;justify-content:space-between;align-items:center;text-decoration:none;font-weight:700;background:var(--ink);color:#fff;padding:12px 16px;border-radius:12px}
+.buy:hover{background:var(--sage)}
+label.add{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;cursor:pointer}
+label.add input{width:18px;height:18px;accent-color:var(--tomato)}
+.calc{background:var(--sage);color:#fff;border-radius:24px;padding:36px;display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
+.calc h2{color:#fff}
+.calc p{color:#cfe2db}
+.meter{background:rgba(255,255,255,.12);border-radius:16px;padding:24px}
+.big{font-family:var(--display);font-size:64px;line-height:1;font-variant-numeric:tabular-nums}
+.bar{height:14px;background:rgba(255,255,255,.18);border-radius:8px;overflow:hidden;margin-top:16px}
+.bar div{height:100%;width:0;background:var(--butter);transition:width .4s}
+.small{font-size:13px;color:#cfe2db;margin-top:10px}
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.how div{border-top:3px solid var(--tomato);padding-top:16px}
+.how h3{margin:0 0 6px;font-size:18px}
+.how p{margin:0;color:var(--muted)}
+footer{background:var(--ink);color:#b9c7c2;font-size:14px}
+footer .wrap{padding-block:40px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
+footer strong{color:#fff;font-family:var(--display);font-weight:400;font-size:20px}
+@media (max-width:820px){.hero .wrap,.calc{grid-template-columns:1fr}.how{grid-template-columns:1fr}nav{display:none}.shelf{height:300px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="disclose">As an Amazon Associate I earn from qualifying purchases. Links on this page may earn us a commission at no extra cost to you.</div>
+<header><div class="wrap">
+  <a class="logo" href="#"><i data-lucide="chef-hat"></i>The Galley</a>
+  <nav><a href="#picks">The picks</a><a href="#calc">Counter calculator</a><a href="#how">How we choose</a></nav>
+</div></header>
+
+<div class="hero"><div class="wrap">
+  <div>
+    <div class="eyebrow">Small kitchens · apartments · galley layouts</div>
+    <h1>Cook more. <em>Clutter less.</em></h1>
+    <p class="lede">The gadgets that earn their spot in a tiny kitchen. Every pick goes on a wall, over the sink, inside a cupboard or folds flat, so your counter stays free for actual cooking.</p>
+    <a class="btn" href="#picks">See the picks <i data-lucide="arrow-down"></i></a>
+    <a class="ghost" href="#calc">How much space could I free?</a>
+  </div>
+  <div class="shelf" aria-hidden="true">
+    <div class="j1 jar"></div><div class="j2 jar"></div><div class="j3 jar"></div><div class="j4 jar"></div>
+    <div class="board b1"></div>
+    <div class="pot"></div>
+    <div class="knives"><span style="left:14px"></span><span style="left:40px;height:58px"></span><span style="left:66px;height:80px"></span><span style="left:92px;height:50px"></span><span style="left:118px;height:66px"></span></div>
+    <div class="board b2"></div>
+    <div class="tag">Off the counter ✓</div>
+  </div>
+</div></div>
+
+<section id="picks"><div class="wrap">
+  <h2>The space-saving shelf</h2>
+  <p class="sub">Filter by where the gadget lives in your kitchen. Tick the ones you'd add and the calculator below adds up the counter space they free.</p>
+  <div class="chips" role="group" aria-label="Filter picks">
+    <button class="chip" aria-pressed="true" data-f="all">All</button>
+    <button class="chip" aria-pressed="false" data-f="wall">On the wall</button>
+    <button class="chip" aria-pressed="false" data-f="sink">At the sink</button>
+    <button class="chip" aria-pressed="false" data-f="cupboard">In the cupboard</button>
+    <button class="chip" aria-pressed="false" data-f="fold">Folds flat</button>
+  </div>
+  <div class="grid" id="grid">
+    <article class="card" data-k="wall" data-sq="54">
+      <div class="ico"><i data-lucide="utensils"></i></div>
+      <h3>Magnetic knife strip</h3>
+      <p>Replaces the bulky knife block. Mounts under a cabinet or on the backsplash and keeps blades sharp and visible.</p>
+      <div class="meta"><span>On the wall</span><span class="free">Frees ~54 sq in</span></div>
+      <label class="add"><input type="checkbox"> Add to my kitchen</label>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=magnetic+knife+strip&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a>
+    </article>
+    <article class="card" data-k="sink" data-sq="234">
+      <div class="ico"><i data-lucide="droplets"></i></div>
+      <h3>Over-the-sink dish rack</h3>
+      <p>Dishes drip straight into the sink. The single biggest counter win for a small kitchen, since a regular rack eats a huge corner.</p>
+      <div class="meta"><span>At the sink</span><span class="free">Frees ~234 sq in</span></div>
+      <label class="add"><input type="checkbox"> Add to my kitchen</label>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=over+the+sink+dish+drying+rack&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a>
+    </article>
+    <article class="card" data-k="sink" data-sq="40">
+      <div class="ico"><i data-lucide="soup"></i></div>
+      <h3>Roll-up sink drying mat</h3>
+      <p>A silicone-coated rack that rolls across the sink for rinsing veg or cooling pans, then rolls into a drawer.</p>
+      <div class="meta"><span>At the sink</span><span class="free">Frees ~40 sq in</span></div>
+      <label class="add"><input type="checkbox"> Add to my kitchen</label>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=roll+up+dish+drying+rack&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a>
+    </article>
+    <article class="card" data-k="cupboard" data-sq="120">
+      <div class="ico"><i data-lucide="package"></i></div>
+      <h3>Stackable airtight pantry containers</h3>
+      <p>Square containers stack and use every inch of a cupboard, so the cereal and flour stop living on the counter.</p>
+      <div class="meta"><span>In the cupboard</span><span class="free">Frees ~120 sq in</span></div>
+      <label class="add"><input type="checkbox"> Add to my kitchen</label>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=stackable+airtight+pantry+containers&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a>
+    </article>
+    <article class="card" data-k="cupboard" data-sq="60">
+      <div class="ico"><i data-lucide="archive"></i></div>
+      <h3>Under-shelf hanging baskets</h3>
+      <p>Clip onto an existing shelf and create a second level for wraps, mugs or spice packets. No tools needed.</p>
+      <div class="meta"><span>In the cupboard</span><span class="free">Frees ~60 sq in</span></div>
+      <label class="add"><input type="checkbox"> Add to my kitchen</label>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=under+shelf+basket&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a>
+    </article>
+    <article class="card" data-k="fold" data-sq="0">
+      <div class="ico"><i data-lucide="cooking-pot"></i></div>
+      <h3>Collapsible colander</h3>
+      <p>Pops open for pasta, folds to the thickness of a plate. Fits over most sinks with extending handles.</p>
+      <div class="meta"><span>Folds flat</span><span>Saves cupboard depth</span></div>
+      <label class="add"><input type="checkbox"> Add to my kitchen</label>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=collapsible+colander&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a>
+    </article>
+    <article class="card" data-k="fold" data-sq="0">
+      <div class="ico"><i data-lucide="scale"></i></div>
+      <h3>Slim digital kitchen scale</h3>
+      <p>Thinner than a cutting board and slides into a drawer. Weighing ingredients means fewer measuring cups to store.</p>
+      <div class="meta"><span>Folds flat</span><span>Replaces cup sets</span></div>
+      <label class="add"><input type="checkbox"> Add to my kitchen</label>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=slim+digital+kitchen+scale&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a>
+    </article>
+    <article class="card" data-k="wall" data-sq="90">
+      <div class="ico"><i data-lucide="layers"></i></div>
+      <h3>Wall-mounted spice rack</h3>
+      <p>Moves a dozen jars off the counter and onto the inside of a cabinet door or a strip of wall.</p>
+      <div class="meta"><span>On the wall</span><span class="free">Frees ~90 sq in</span></div>
+      <label class="add"><input type="checkbox"> Add to my kitchen</label>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=wall+mounted+spice+rack&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a>
+    </article>
+  </div>
+</div></section>
+
+<section id="calc" style="padding-top:0"><div class="wrap">
+  <div class="calc">
+    <div>
+      <h2>Your counter, reclaimed</h2>
+      <p>A standard 24-inch-deep counter run of 3 feet is 864 square inches. Tick picks above and see how much of it you'd get back. Estimates use typical footprint sizes for each item.</p>
+    </div>
+    <div class="meter" aria-live="polite">
+      <div class="big"><span id="sq">0</span> sq in</div>
+      <div>freed, about <strong id="pct">0%</strong> of a 3-foot counter run</div>
+      <div class="bar"><div id="fill"></div></div>
+      <div class="small" id="hint">Tick "Add to my kitchen" on any pick to start.</div>
+    </div>
+  </div>
+</div></section>
+
+<section id="how" style="padding-top:0"><div class="wrap">
+  <h2>How we choose</h2>
+  <p class="sub">Three rules every pick has to pass before it goes on the shelf.</p>
+  <div class="how">
+    <div><h3>It leaves the counter</h3><p>If it has to sit on the worktop, it has to replace something bigger that already does.</p></div>
+    <div><h3>It does a daily job</h3><p>No single-use novelty gadgets. Each pick gets used most days of the week.</p></div>
+    <div><h3>It installs in minutes</h3><p>Renters welcome. Most picks clip, stick or stand without drilling.</p></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div><strong>The Galley</strong><br>Small-kitchen finds, picked for space.</div>
+  <div style="max-width:520px">As an Amazon Associate I earn from qualifying purchases. Product availability and prices are set by Amazon and can change at any time. Amazon and the Amazon logo are trademarks of Amazon.com, Inc. or its affiliates.</div>
+</div></footer>
+
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script>
+lucide.createIcons();
+const chips=document.querySelectorAll('.chip'),cards=document.querySelectorAll('.card');
+chips.forEach(c=>c.addEventListener('click',()=>{chips.forEach(x=>x.setAttribute('aria-pressed',x===c));cards.forEach(k=>k.hidden=c.dataset.f!=='all'&&k.dataset.k!==c.dataset.f)}));
+function calc(){let s=0,n=0;cards.forEach(k=>{if(k.querySelector('input').checked){s+=+k.dataset.sq;n++}});
+  const p=Math.min(100,Math.round(s/864*100));document.getElementById('sq').textContent=s;document.getElementById('pct').textContent=p+'%';document.getElementById('fill').style.width=p+'%';
+  document.getElementById('hint').textContent=n?`${n} pick${n>1?'s':''} selected. Scroll up to grab them on Amazon.`:'Tick "Add to my kitchen" on any pick to start.'}
+document.querySelectorAll('.card input').forEach(i=>i.addEventListener('change',calc));
+</script>
+</body>
+</html>

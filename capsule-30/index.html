@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Capsule 30</title>
+<meta name="description" content="Build a capsule wardrobe from a few versatile basics. Pick your pieces and see how many outfits they make. Wardrobe essentials from Amazon.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..800;1,6..96,400..700&family=Jost:wght@400;500;600&display=swap">
+<style>
+/* Layout: editorial lookbook; a clothes rail hero, pieces sorted by role, and live outfit math */
+:root{
+  --stone:#e8e9e8; --chalk:#f8f8f6; --navy:#1f2a44; --rust:#b5532c; --sage:#8fa08a;
+  --muted:#5f6573; --line:#c9ccd1;
+  --display:"Bodoni Moda", Didot, Georgia, serif; --body:"Jost", "Futura", system-ui, sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--chalk);color:var(--navy);font:17px/1.6 var(--body)}
+.wrap{max-width:1140px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.disclose{border-bottom:1px solid var(--line);font-size:13px;text-align:center;padding-block:8px;color:var(--muted)}
+header .wrap{display:flex;justify-content:space-between;align-items:baseline;padding-block:22px;gap:16px}
+.logo{font-family:var(--display);font-size:30px;font-weight:700;text-decoration:none;color:var(--navy);letter-spacing:-.01em}
+.logo em{color:var(--rust)}
+nav{display:flex;gap:26px;font-size:14px;letter-spacing:.14em;text-transform:uppercase}
+nav a{color:inherit;text-decoration:none}
+nav a:hover{color:var(--rust)}
+.hero .wrap{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center;padding-block:40px 80px}
+.kick{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--rust)}
+h1{font-family:var(--display);font-weight:500;font-size:clamp(48px,7.4vw,96px);line-height:.95;margin:14px 0 22px;letter-spacing:-.02em;text-wrap:balance}
+h1 em{font-style:italic;color:var(--rust)}
+.lede{font-size:19px;color:var(--muted);max-width:44ch;margin:0 0 30px}
+.btn{display:inline-flex;gap:10px;align-items:center;background:var(--navy);color:#fff;text-decoration:none;font-size:14px;letter-spacing:.14em;text-transform:uppercase;padding:16px 28px;transition:background .2s}
+.btn:hover{background:var(--rust)}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--rust);outline-offset:3px}
+.rail{position:relative;height:380px;max-width:100%}
+.bar{position:absolute;left:0;right:0;top:20px;height:6px;background:#9aa0aa;border-radius:3px}
+.hang{position:absolute;top:10px;display:flex;flex-direction:column;align-items:center;transform-origin:top center;animation:sway 6s ease-in-out infinite}
+.hang:nth-child(odd){animation-delay:-2s}
+@keyframes sway{50%{transform:rotate(2deg)}}
+.hook{width:16px;height:20px;border:3px solid #6f7580;border-bottom:0;border-radius:10px 10px 0 0}
+.shoulder{width:100%;height:10px;border-top:3px solid #6f7580;border-radius:50% 50% 0 0}
+.g{border-radius:6px 6px 2px 2px}
+section{padding-block:72px}
+h2{font-family:var(--display);font-weight:500;font-size:clamp(34px,5vw,58px);line-height:1;margin:0 0 10px;letter-spacing:-.01em}
+.sub{color:var(--muted);max-width:60ch;margin:0 0 30px}
+.groups{display:grid;gap:40px}
+.group h3{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--rust);margin:0 0 14px;padding-bottom:10px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between}
+.items{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px}
+.item{background:#fff;padding:20px;display:flex;flex-direction:column;gap:10px;border:1px solid transparent;transition:border-color .2s}
+.item:has(input:checked){border-color:var(--navy)}
+.sw{height:150px;display:grid;place-items:center}
+.sw div{width:60%;height:80%;border-radius:10px 10px 4px 4px}
+.item h4{font-family:var(--display);font-weight:600;font-size:22px;margin:0;line-height:1.15}
+.item p{margin:0;color:var(--muted);font-size:15px;flex:1}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.row label{display:flex;gap:8px;align-items:center;font-size:14px;cursor:pointer}
+.row input{width:18px;height:18px;accent-color:var(--rust)}
+.buy{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);text-decoration:none;border-bottom:1.5px solid var(--navy);padding-bottom:2px;display:inline-flex;gap:4px;align-items:center}
+.buy:hover{color:var(--rust);border-color:var(--rust)}
+.buy svg{width:14px;height:14px}
+.math{position:sticky;bottom:0;background:var(--navy);color:#fff;z-index:5;padding-bottom:env(safe-area-inset-bottom,0px)}
+.math .wrap{display:flex;justify-content:space-between;align-items:center;gap:20px;padding-block:14px;flex-wrap:wrap}
+.eq{font-size:15px;color:#c8cfdd;font-variant-numeric:tabular-nums}
+.total{font-family:var(--display);font-size:34px;font-variant-numeric:tabular-nums}
+.total em{color:#f0b49a;font-style:italic}
+.princ{display:grid;grid-template-columns:repeat(3,1fr);gap:30px}
+.princ div{border-top:1px solid var(--navy);padding-top:16px}
+.princ b{font-family:var(--display);font-size:24px;font-weight:600;display:block;margin-bottom:6px}
+.princ p{margin:0;color:var(--muted)}
+footer{background:var(--stone);font-size:14px;color:var(--muted)}
+footer .wrap{padding-block:36px 90px;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between}
+footer strong{font-family:var(--display);font-size:24px;color:var(--navy)}
+@media (max-width:820px){.hero .wrap,.princ{grid-template-columns:1fr}nav{display:none}.rail{height:320px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="disclose">As an Amazon Associate I earn from qualifying purchases. Links may earn a commission at no extra cost to you.</div>
+<header><div class="wrap">
+  <a class="logo" href="#">Capsule <em>30</em></a>
+  <nav><a href="#build">Build</a><a href="#rules">Principles</a></nav>
+</div></header>
+
+<div class="hero"><div class="wrap">
+  <div>
+    <div class="kick">The capsule wardrobe</div>
+    <h1>Fewer clothes. <em>More</em> outfits.</h1>
+    <p class="lede">Nine pieces that all go together can make dozens of outfits. Pick your basics below and watch the outfit count climb.</p>
+    <a class="btn" href="#build">Build my capsule <i data-lucide="arrow-down"></i></a>
+  </div>
+  <div class="rail" aria-hidden="true">
+    <div class="bar"></div>
+    <div class="hang" style="left:4%;width:18%"><div class="hook"></div><div class="shoulder"></div><div class="g" style="width:100%;height:150px;background:#fff;border:1px solid var(--line)"></div></div>
+    <div class="hang" style="left:24%;width:18%"><div class="hook"></div><div class="shoulder"></div><div class="g" style="width:100%;height:190px;background:#c79a6b"></div></div>
+    <div class="hang" style="left:44%;width:16%"><div class="hook"></div><div class="shoulder"></div><div class="g" style="width:100%;height:240px;background:var(--navy)"></div></div>
+    <div class="hang" style="left:62%;width:18%"><div class="hook"></div><div class="shoulder"></div><div class="g" style="width:100%;height:170px;background:var(--sage)"></div></div>
+    <div class="hang" style="left:82%;width:16%"><div class="hook"></div><div class="shoulder"></div><div class="g" style="width:100%;height:280px;background:var(--rust);border-radius:6px 6px 30px 30px"></div></div>
+  </div>
+</div></div>
+
+<section id="build" style="background:var(--stone)"><div class="wrap">
+  <h2>Build your capsule</h2>
+  <p class="sub">Tick each piece you'd own. Outfits = tops × bottoms × shoes, plus dresses × shoes, all doubled when you have a layer to throw over them.</p>
+  <div class="groups">
+    <div class="group" data-g="top"><h3><span>Tops</span><span>3</span></h3><div class="items">
+      <div class="item"><div class="sw"><div style="background:#fff;border:1px solid var(--line)"></div></div><h4>Heavyweight white tee</h4><p>Thick cotton that doesn't go see-through. The base of half your outfits.</p><div class="row"><label><input type="checkbox" checked>In my capsule</label><a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=heavyweight+white+t+shirt&tag=YOURTAG-20">Shop <i data-lucide="arrow-up-right"></i></a></div></div>
+      <div class="item"><div class="sw"><div style="background:#dfe6ef"></div></div><h4>Linen button-down</h4><p>Worn buttoned, open over the tee or tucked in. Breathes in summer.</p><div class="row"><label><input type="checkbox" checked>In my capsule</label><a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=linen+button+down+shirt&tag=YOURTAG-20">Shop <i data-lucide="arrow-up-right"></i></a></div></div>
+      <div class="item"><div class="sw"><div style="background:#c79a6b"></div></div><h4>Fine-knit sweater</h4><p>A merino or cotton crew in camel or grey. Smart enough for the office, soft enough for Sunday.</p><div class="row"><label><input type="checkbox">In my capsule</label><a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=fine+knit+crew+neck+sweater&tag=YOURTAG-20">Shop <i data-lucide="arrow-up-right"></i></a></div></div>
+    </div></div>
+    <div class="group" data-g="bottom"><h3><span>Bottoms</span><span>2</span></h3><div class="items">
+      <div class="item"><div class="sw"><div style="background:#3d5a85;width:40%"></div></div><h4>Straight-leg jeans</h4><p>Mid-wash, no rips. The cut that works with sneakers and boots alike.</p><div class="row"><label><input type="checkbox" checked>In my capsule</label><a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=straight+leg+jeans+mid+wash&tag=YOURTAG-20">Shop <i data-lucide="arrow-up-right"></i></a></div></div>
+      <div class="item"><div class="sw"><div style="background:#2b2f36;width:44%"></div></div><h4>Wide-leg trousers</h4><p>Black or charcoal, a dressier option that still feels relaxed.</p><div class="row"><label><input type="checkbox">In my capsule</label><a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=wide+leg+trousers&tag=YOURTAG-20">Shop <i data-lucide="arrow-up-right"></i></a></div></div>
+    </div></div>
+    <div class="group" data-g="dress"><h3><span>Dresses</span><span>1</span></h3><div class="items">
+      <div class="item"><div class="sw"><div style="background:var(--rust);width:46%;border-radius:10px 10px 40px 40px"></div></div><h4>Midi slip dress</h4><p>Alone in summer, over the tee or under the sweater in cooler months.</p><div class="row"><label><input type="checkbox">In my capsule</label><a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=midi+slip+dress&tag=YOURTAG-20">Shop <i data-lucide="arrow-up-right"></i></a></div></div>
+    </div></div>
+    <div class="group" data-g="shoes"><h3><span>Shoes</span><span>2</span></h3><div class="items">
+      <div class="item"><div class="sw"><div style="background:#fff;border:1px solid var(--line);height:34%;border-radius:40px 40px 8px 8px"></div></div><h4>White leather sneakers</h4><p>Minimal, low-top and clean. They go with literally everything here.</p><div class="row"><label><input type="checkbox" checked>In my capsule</label><a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=white+leather+sneakers+minimal&tag=YOURTAG-20">Shop <i data-lucide="arrow-up-right"></i></a></div></div>
+      <div class="item"><div class="sw"><div style="background:#4a3426;height:46%;border-radius:20px 20px 8px 8px"></div></div><h4>Chelsea boots</h4><p>Dark brown suede or leather. They take jeans and trousers up a notch.</p><div class="row"><label><input type="checkbox">In my capsule</label><a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=chelsea+boots&tag=YOURTAG-20">Shop <i data-lucide="arrow-up-right"></i></a></div></div>
+    </div></div>
+    <div class="group" data-g="layer"><h3><span>Layer</span><span>1</span></h3><div class="items">
+      <div class="item"><div class="sw"><div style="background:#cdb38f;width:56%;height:90%"></div></div><h4>Classic trench coat</h4><p>The layer that turns every outfit into a second, slightly smarter one.</p><div class="row"><label><input type="checkbox">In my capsule</label><a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=classic+trench+coat&tag=YOURTAG-20">Shop <i data-lucide="arrow-up-right"></i></a></div></div>
+    </div></div>
+  </div>
+</div></section>
+
+<div class="math" aria-live="polite"><div class="wrap">
+  <div class="eq" id="eq"></div>
+  <div class="total"><em id="n">0</em> outfits from <span id="p">0</span> pieces</div>
+</div></div>
+
+<section id="rules"><div class="wrap">
+  <h2>Three principles</h2>
+  <p class="sub">What makes a capsule actually work day to day.</p>
+  <div class="princ">
+    <div><b>One palette</b><p>Pick two neutrals and one accent. If everything shares a palette, everything matches.</p></div>
+    <div><b>Fit over trend</b><p>Basics are worn constantly, so tailoring a hem matters more than any logo.</p></div>
+    <div><b>Replace, don't add</b><p>When something wears out, replace it with the same role, not a fourth pair of jeans.</p></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div><strong>Capsule 30</strong><br>Fewer clothes, more outfits.</div>
+  <div style="max-width:520px">As an Amazon Associate I earn from qualifying purchases. Prices, sizes and availability are set by Amazon and can change.</div>
+</div></footer>
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script>
+lucide.createIcons();
+const cnt=g=>document.querySelectorAll(`.group[data-g="${g}"] input:checked`).length;
+function upd(){const t=cnt('top'),b=cnt('bottom'),d=cnt('dress'),s=cnt('shoes'),l=cnt('layer');
+  const base=t*b*s+d*s,total=base*(l+1),pieces=t+b+d+s+l;
+  document.getElementById('n').textContent=total;document.getElementById('p').textContent=pieces;
+  document.getElementById('eq').textContent=`(${t} tops × ${b} bottoms × ${s} shoes + ${d} dress × ${s} shoes) × ${l+1} layer option${l?'s':''}`;}
+document.querySelectorAll('.group input').forEach(i=>i.addEventListener('change',upd));upd();
+</script>
+</body>
+</html>

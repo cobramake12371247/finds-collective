@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finds Collective</title>
+<meta name="description" content="Twelve hand-picked shopping guides: kitchen, home, skincare, beauty, desk tech, travel tech, dogs, cats, wardrobe, sneakers, sleep and home fitness.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400;500;600&display=swap">
+<style>
+/* Layout: a directory of twelve shopfronts, each tile wearing its own site's colors */
+:root{
+  --bg:#f4f4f1; --ink:#17171c; --muted:#5d5d66; --line:#dcdcd6;
+  --display:"Bricolage Grotesque", system-ui, sans-serif; --body:"Figtree", system-ui, sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--body)}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.disclose{font-size:13px;color:var(--muted);text-align:center;padding-block:8px;border-bottom:1px solid var(--line)}
+header .wrap{padding-block:56px 36px}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(42px,7vw,88px);line-height:.95;letter-spacing:-.03em;margin:0 0 16px;text-wrap:balance}
+.lede{font-size:19px;color:var(--muted);max-width:56ch;margin:0}
+.niche{padding-block:22px}
+.niche h2{font-family:var(--display);font-weight:700;font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.tile{display:flex;flex-direction:column;justify-content:space-between;gap:30px;min-height:190px;padding:26px;border-radius:22px;text-decoration:none;transition:transform .2s,box-shadow .2s}
+.tile:hover{transform:translateY(-4px);box-shadow:0 20px 34px rgba(0,0,0,.12)}
+.tile:focus-visible{outline:3px solid var(--ink);outline-offset:4px}
+.tile b{font-size:clamp(26px,3.4vw,38px);line-height:1;letter-spacing:-.01em}
+.tile span{font-size:15px;opacity:.85;max-width:40ch}
+.tile .go{display:flex;justify-content:space-between;align-items:end;gap:12px}
+.tile .go svg{width:26px;height:26px;flex:none}
+footer .wrap{padding-block:40px;color:var(--muted);font-size:14px;border-top:1px solid var(--line);margin-top:40px}
+@media (max-width:720px){.pair{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="disclose">As an Amazon Associate I earn from qualifying purchases.</div>
+<header><div class="wrap">
+  <h1>Twelve shops. One good find at a time.</h1>
+  <p class="lede">Hand-picked guides for the things people actually buy online, from small-kitchen gadgets to sneaker care. Pick a shop to start.</p>
+</div></header>
+<main class="wrap">
+  <div class="niche"><h2>Home &amp; kitchen</h2><div class="pair">
+    <a class="tile" href="the-galley/" style="background:#2f5d50;color:#fff;font-family:'Young Serif',Georgia,serif"><b>The Galley</b><div class="go"><span style="font-family:var(--body)">Small-kitchen finds that free up counter space.</span><i data-lucide="arrow-up-right"></i></div></a>
+    <a class="tile" href="no-drill-nest/" style="background:#4a7bd9;color:#fff;font-family:var(--display)"><b>No Drill Nest</b><div class="go"><span style="font-family:var(--body)">Renter-friendly upgrades that come off clean.</span><i data-lucide="arrow-up-right"></i></div></a>
+  </div></div>
+  <div class="niche"><h2>Beauty</h2><div class="pair">
+    <a class="tile" href="shelfie-club/" style="background:#dff0f0;color:#3b1f38;font-family:Didot,Georgia,serif"><b>Shelfie Club</b><div class="go"><span style="font-family:var(--body)">A simple morning and night skincare routine.</span><i data-lucide="arrow-up-right"></i></div></a>
+    <a class="tile" href="dupe-desk/" style="background:#ff5a4e;color:#16121a;font-family:var(--display)"><b>The Dupe Desk</b><div class="go"><span style="font-family:var(--body)">Budget beauty that looks like a splurge.</span><i data-lucide="arrow-up-right"></i></div></a>
+  </div></div>
+  <div class="niche"><h2>Tech accessories</h2><div class="pair">
+    <a class="tile" href="desk-setup-lab/" style="background:#0e1525;color:#ffb547;font-family:var(--display)"><b>Desk Setup Lab</b><div class="go"><span style="font-family:var(--body);color:#e8edf7">Work-from-home desk upgrades, level by level.</span><i data-lucide="arrow-up-right"></i></div></a>
+    <a class="tile" href="pocket-kit/" style="background:#ff6a1a;color:#1b1b1d;font-family:var(--display)"><b>Pocket Kit</b><div class="go"><span style="font-family:var(--body)">Light travel tech with a pack-weight scale.</span><i data-lucide="arrow-up-right"></i></div></a>
+  </div></div>
+  <div class="niche"><h2>Pets</h2><div class="pair">
+    <a class="tile" href="good-boy-gear/" style="background:#e4ef4c;color:#1c2a20;font-family:var(--display)"><b>Good Boy Gear</b><div class="go"><span style="font-family:var(--body)">Dog gear for easier walks and calmer evenings.</span><i data-lucide="arrow-up-right"></i></div></a>
+    <a class="tile" href="the-cat-shelf/" style="background:#2c3442;color:#f5a524;font-family:var(--display)"><b>The Cat Shelf</b><div class="go"><span style="font-family:var(--body);color:#eef1f5">Enrichment for indoor cats, hour by hour.</span><i data-lucide="arrow-up-right"></i></div></a>
+  </div></div>
+  <div class="niche"><h2>Fashion</h2><div class="pair">
+    <a class="tile" href="capsule-30/" style="background:#1f2a44;color:#fff;font-family:Didot,Georgia,serif"><b>Capsule 30</b><div class="go"><span style="font-family:var(--body)">Fewer clothes, more outfits.</span><i data-lucide="arrow-up-right"></i></div></a>
+    <a class="tile" href="sole-search/" style="background:#2346d8;color:#fff;font-family:var(--display)"><b>Sole Search</b><div class="go"><span style="font-family:var(--body)">Everyday sneakers and the kit to keep them fresh.</span><i data-lucide="arrow-up-right"></i></div></a>
+  </div></div>
+  <div class="niche"><h2>Health &amp; personal care</h2><div class="pair">
+    <a class="tile" href="lights-out-lab/" style="background:#121834;color:#f3e9c8;font-family:Georgia,serif"><b>Lights Out Lab</b><div class="go"><span style="font-family:var(--body)">A bedtime calculator and a calmer bedroom.</span><i data-lucide="arrow-up-right"></i></div></a>
+    <a class="tile" href="daily-reset/" style="background:#d6f5e6;color:#13201b;font-family:var(--display)"><b>Daily Reset</b><div class="go"><span style="font-family:var(--body)">A 10-minute daily routine with a built-in timer.</span><i data-lucide="arrow-up-right"></i></div></a>
+  </div></div>
+</main>
+<footer><div class="wrap">As an Amazon Associate I earn from qualifying purchases. Amazon and the Amazon logo are trademarks of Amazon.com, Inc. or its affiliates.</div></footer>
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script>lucide.createIcons();</script>
+</body>
+</html>

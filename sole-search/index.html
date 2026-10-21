@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sole Search</title>
+<meta name="description" content="Everyday sneakers and the kit to keep them fresh. Shoe care, storage and sneaker picks from Amazon, plus a US/EU/UK size converter.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: sneaker-box drop; cobalt + gum-sole palette, box-label cards, size converter */
+:root{
+  --white:#f6f6f3; --ink:#101015; --cobalt:#2346d8; --cobalt-2:#1a37b3; --gum:#c98a4b; --gum-2:#e6b98a;
+  --muted:#5b5d66; --line:#d9d9d4;
+  --display:"Archivo Black", Impact, sans-serif; --body:"Archivo", system-ui, sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--white);color:var(--ink);font:16px/1.6 var(--body)}
+.wrap{max-width:1160px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.disclose{background:var(--ink);color:#cfcfd6;font-size:13px;text-align:center;padding-block:8px}
+header .wrap{display:flex;justify-content:space-between;align-items:center;padding-block:18px;gap:16px}
+.logo{font-family:var(--display);font-size:26px;text-decoration:none;color:var(--ink);text-transform:uppercase;letter-spacing:-.02em}
+.logo span{color:var(--cobalt)}
+nav{display:flex;gap:22px;font-weight:700}
+nav a{color:inherit;text-decoration:none}
+nav a:hover{color:var(--cobalt)}
+.hero{background:var(--cobalt);color:#fff;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding-block:60px}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(48px,8.4vw,112px);line-height:.88;text-transform:uppercase;letter-spacing:-.03em;margin:0 0 20px}
+h1 span{color:var(--gum-2)}
+.lede{font-size:19px;color:#d9e0ff;max-width:46ch;margin:0 0 28px}
+.btn{display:inline-flex;gap:8px;align-items:center;background:#fff;color:var(--ink);font-weight:700;text-decoration:none;padding:15px 24px;border-radius:999px;transition:transform .2s,background .2s}
+.btn:hover{background:var(--gum-2);transform:translateY(-2px)}
+a:focus-visible,button:focus-visible,select:focus-visible{outline:3px solid var(--gum);outline-offset:3px}
+.box{position:relative;aspect-ratio:4/3;max-width:100%}
+.lid{position:absolute;left:4%;right:4%;top:6%;height:24%;background:#e8642c;border-radius:6px;transform:rotate(-8deg);transform-origin:left bottom;box-shadow:0 14px 30px rgba(0,0,0,.25);animation:lid 3.6s ease-in-out infinite}
+@keyframes lid{50%{transform:rotate(-14deg) translateY(-8px)}}
+.lid::after{content:"SIZE 9  ·  US";position:absolute;right:8%;top:30%;background:#fff;color:var(--ink);font:700 12px var(--body);padding:4px 8px;letter-spacing:.1em}
+.base{position:absolute;left:6%;right:6%;bottom:6%;height:56%;background:#f07a3f;border-radius:4px;box-shadow:0 20px 40px rgba(0,0,0,.25);overflow:hidden}
+.base::before{content:"";position:absolute;left:0;right:0;top:0;height:18%;background:#d85a22}
+.shoe{position:absolute;left:14%;right:14%;bottom:38%;height:30%}
+.upper{position:absolute;left:0;right:6%;bottom:22%;height:78%;background:#fff;border-radius:60% 40% 10% 10%/90% 70% 10% 10%}
+.sole{position:absolute;left:0;right:0;bottom:0;height:26%;background:var(--gum);border-radius:0 30px 12px 12px}
+.swoosh{position:absolute;left:30%;bottom:42%;width:34%;height:12px;background:var(--cobalt);border-radius:0 0 20px 20px;transform:rotate(-8deg)}
+section{padding-block:70px}
+h2{font-family:var(--display);font-weight:400;font-size:clamp(32px,5vw,60px);text-transform:uppercase;letter-spacing:-.02em;line-height:.95;margin:0 0 10px}
+.sub{color:var(--muted);max-width:62ch;margin:0 0 28px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:22px}
+.card{background:#fff;border:2px solid var(--ink);border-radius:6px;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--cobalt)}
+.label{display:grid;grid-template-columns:1fr auto;border-bottom:2px solid var(--ink);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.label span{padding:8px 12px}
+.label span+span{border-left:2px solid var(--ink);background:var(--gum-2)}
+.inner{padding:20px;display:flex;flex-direction:column;gap:10px;flex:1}
+.inner svg.lucide{width:34px;height:34px;color:var(--cobalt)}
+.inner h3{margin:0;font-size:20px;line-height:1.2}
+.inner p{margin:0;color:var(--muted);font-size:15px;flex:1}
+.buy{display:flex;justify-content:space-between;align-items:center;font-weight:700;text-decoration:none;color:#fff;background:var(--ink);padding:12px 16px;border-radius:999px}
+.buy:hover{background:var(--cobalt)}
+.buy svg.lucide{width:18px;height:18px;color:#fff}
+.conv{background:var(--ink);color:#fff;border-radius:10px;display:grid;grid-template-columns:1fr 1.2fr;gap:36px;padding:clamp(24px,5vw,48px);align-items:center}
+.conv h2{color:#fff}
+.conv p{color:#b9bac4}
+.conv label{font-weight:700;display:block;margin-bottom:8px}
+select{font:700 18px var(--body);padding:12px 16px;border-radius:8px;border:0;background:#fff;color:var(--ink);min-width:180px;max-width:100%}
+.out{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.out div{background:#1d1e26;border-radius:10px;padding:18px;text-align:center}
+.out b{display:block;font-family:var(--display);font-size:clamp(30px,5vw,46px);line-height:1;color:var(--gum-2);font-variant-numeric:tabular-nums}
+.out span{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#b9bac4}
+footer .wrap{padding-block:34px;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;font-size:14px;color:var(--muted);border-top:2px solid var(--ink)}
+footer strong{font-family:var(--display);text-transform:uppercase;color:var(--ink)}
+@media (max-width:820px){.hero .wrap,.conv{grid-template-columns:1fr}nav{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="disclose">As an Amazon Associate I earn from qualifying purchases. Links may earn a commission at no extra cost to you.</div>
+<header><div class="wrap">
+  <a class="logo" href="#">Sole <span>Search</span></a>
+  <nav><a href="#kicks">Kicks &amp; care</a><a href="#size">Size converter</a></nav>
+</div></header>
+
+<div class="hero"><div class="wrap">
+  <div>
+    <h1>Fresh pair. <span>Every day.</span></h1>
+    <p class="lede">The everyday sneakers worth owning, and the cheap kit that keeps them looking box-fresh for years.</p>
+    <a class="btn" href="#kicks">Open the box <i data-lucide="arrow-down"></i></a>
+  </div>
+  <div class="box" aria-hidden="true">
+    <div class="base"></div>
+    <div class="shoe"><div class="upper"></div><div class="swoosh"></div><div class="sole"></div></div>
+    <div class="lid"></div>
+  </div>
+</div></div>
+
+<section id="kicks"><div class="wrap">
+  <h2>Kicks &amp; care</h2>
+  <p class="sub">Two pairs to wear, six things to keep them fresh.</p>
+  <div class="grid">
+    <article class="card"><div class="label"><span>Wear</span><span>Daily</span></div><div class="inner"><i data-lucide="footprints"></i><h3>White leather sneakers</h3><p>The one pair that goes with jeans, chinos and dresses. Leather wipes clean easily.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=white+leather+sneakers&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></div></article>
+    <article class="card"><div class="label"><span>Wear</span><span>Active</span></div><div class="inner"><i data-lucide="activity"></i><h3>Cushioned running shoes</h3><p>Soft foam for long walks, gym days and actual runs. Your feet will notice the difference.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=cushioned+running+shoes&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></div></article>
+    <article class="card"><div class="label"><span>Care</span><span>Clean</span></div><div class="inner"><i data-lucide="sparkles"></i><h3>Sneaker cleaning kit</h3><p>Foam cleaner, soft and stiff brushes and a microfiber cloth. Ten minutes and soles look new.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=sneaker+cleaning+kit&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></div></article>
+    <article class="card"><div class="label"><span>Care</span><span>Protect</span></div><div class="inner"><i data-lucide="shield-check"></i><h3>Water &amp; stain protector spray</h3><p>Spray new pairs before the first wear so rain and coffee bead off instead of soaking in.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=shoe+protector+spray+water+stain&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></div></article>
+    <article class="card"><div class="label"><span>Care</span><span>Shape</span></div><div class="inner"><i data-lucide="minimize-2"></i><h3>Toe-box crease protectors</h3><p>Thin inserts that stop the deep creases across the toes from forming.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=sneaker+crease+protectors&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></div></article>
+    <article class="card"><div class="label"><span>Care</span><span>Shape</span></div><div class="inner"><i data-lucide="trees"></i><h3>Cedar shoe trees</h3><p>Hold the shape overnight and absorb moisture and odor. Natural cedar smells great.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=cedar+shoe+trees&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></div></article>
+    <article class="card"><div class="label"><span>Store</span><span>Display</span></div><div class="inner"><i data-lucide="box"></i><h3>Clear stackable shoe boxes</h3><p>Drop-front boxes keep dust off and turn a closet shelf into a display wall.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=clear+stackable+shoe+boxes+drop+front&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></div></article>
+    <article class="card"><div class="label"><span>Wear</span><span>Basics</span></div><div class="inner"><i data-lucide="layers"></i><h3>No-show socks</h3><p>Silicone heel grips so they don't slip down. The clean ankle line low-tops need.</p>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=no+show+socks+silicone+heel&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></div></article>
+  </div>
+</div></section>
+
+<section id="size" style="padding-top:0"><div class="wrap">
+  <div class="conv">
+    <div>
+      <h2>Size converter</h2>
+      <p>Pick your US men's size to see the usual EU, UK and US women's equivalents. Sizing varies by brand, so check the listing's chart too.</p>
+      <label for="us">US men's size</label>
+      <select id="us"></select>
+    </div>
+    <div class="out" aria-live="polite">
+      <div><b id="eu">42.5</b><span>EU</span></div>
+      <div><b id="uk">8</b><span>UK</span></div>
+      <div><b id="w">10.5</b><span>US women's</span></div>
+    </div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div><strong>Sole Search</strong><br>Fresh pair, every day.</div>
+  <div style="max-width:520px">As an Amazon Associate I earn from qualifying purchases. Size conversions are typical and vary by brand. Prices and availability are set by Amazon.</div>
+</div></footer>
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script>
+lucide.createIcons();
+const eu={6:'38.5',6.5:'39',7:'40',7.5:'40.5',8:'41',8.5:'42',9:'42.5',9.5:'43',10:'44',10.5:'44.5',11:'45',11.5:'45.5',12:'46',12.5:'47',13:'47.5',14:'48.5'};
+const sel=document.getElementById('us');
+Object.keys(eu).map(Number).sort((a,b)=>a-b).forEach(k=>{const o=document.createElement('option');o.value=k;o.textContent='US '+k;if(k===9)o.selected=true;sel.appendChild(o)});
+function upd(){const v=+sel.value;document.getElementById('eu').textContent=eu[v];document.getElementById('uk').textContent=v-1;document.getElementById('w').textContent=v+1.5}
+sel.addEventListener('change',upd);upd();
+</script>
+</body>
+</html>

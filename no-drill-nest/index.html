@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>No Drill Nest</title>
+<meta name="description" content="Renter-friendly home upgrades that stick, clip and plug in. No drilling, no lost deposit. Hand-picked Amazon finds for apartments.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Caveat:wght@600&display=swap">
+<style>
+/* Layout: a bare rental wall framed in painter's tape, sticky-note picks, and a move-out checklist */
+:root{
+  --wall:#eef0f4; --paper:#ffffff; --tape:#4a7bd9; --tape-2:#3561b8; --pencil:#23262d;
+  --peach:#ff8a5c; --note:#ffe68a; --mint:#cfeadb; --muted:#5d6370;
+  --display:"Archivo", "Arial Narrow", sans-serif; --hand:"Caveat", "Comic Sans MS", cursive; --body:"Archivo", system-ui, sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--wall);color:var(--pencil);font:16px/1.6 var(--body);font-stretch:100%}
+.wrap{max-width:1140px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.disclose{background:var(--pencil);color:#dfe3ec;font-size:13px;text-align:center;padding-block:8px}
+header .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-block:18px}
+.logo{font-family:var(--display);font-stretch:125%;font-weight:800;font-size:22px;text-decoration:none;color:inherit;letter-spacing:-.01em;display:flex;gap:10px;align-items:center}
+.logo b{background:var(--tape);color:#fff;padding:2px 10px;transform:rotate(-3deg);display:inline-block}
+nav{display:flex;gap:20px;font-weight:600}
+nav a{color:inherit;text-decoration:none}
+nav a:hover{color:var(--tape)}
+.hero{overflow-x:clip}
+.hero .wrap{padding-block:40px 70px}
+.frame{position:relative;background:var(--paper);padding:clamp(28px,6vw,72px);border-radius:4px;box-shadow:0 30px 60px -30px rgba(35,38,45,.25)}
+.frame::before,.frame::after,.frame .t1,.frame .t2{content:"";position:absolute;background:rgba(74,123,217,.85);height:26px;width:120px}
+.frame::before{top:-10px;left:-24px;transform:rotate(-35deg)}
+.frame::after{top:-10px;right:-24px;transform:rotate(35deg)}
+.frame .t1{bottom:-10px;left:-24px;transform:rotate(35deg)}
+.frame .t2{bottom:-10px;right:-24px;transform:rotate(-35deg)}
+.hero-grid{display:grid;grid-template-columns:1.3fr .7fr;gap:40px;align-items:center}
+h1{font-family:var(--display);font-stretch:125%;font-weight:800;font-size:clamp(38px,6.4vw,76px);line-height:.95;letter-spacing:-.02em;margin:0 0 20px;text-wrap:balance}
+h1 span{color:var(--tape)}
+.lede{font-size:19px;color:var(--muted);max-width:50ch;margin:0 0 26px}
+.btn{display:inline-flex;gap:8px;align-items:center;background:var(--peach);color:var(--pencil);font-weight:800;text-decoration:none;padding:14px 22px;border-radius:6px;border:2px solid var(--pencil);box-shadow:4px 4px 0 var(--pencil);transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--pencil)}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--tape);outline-offset:3px}
+.notes{display:grid;gap:16px}
+.sticky{background:var(--note);font-family:var(--hand);font-size:26px;line-height:1.15;padding:18px 20px;box-shadow:0 10px 16px -8px rgba(0,0,0,.25);transform:rotate(2deg)}
+.sticky:nth-child(2){background:var(--mint);transform:rotate(-2deg);margin-left:24px}
+.sticky:nth-child(3){background:#ffd3c2;transform:rotate(1deg)}
+section{padding-block:64px}
+h2{font-family:var(--display);font-stretch:125%;font-weight:800;font-size:clamp(28px,4vw,44px);letter-spacing:-.02em;margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 28px;max-width:62ch}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:26px}
+.card{background:var(--paper);padding:22px;border-radius:4px;position:relative;display:flex;flex-direction:column;gap:12px;transition:transform .2s}
+.card::before{content:"";position:absolute;top:-11px;left:50%;width:84px;height:22px;margin-left:-42px;background:rgba(74,123,217,.75);transform:rotate(-3deg)}
+.card:nth-child(even)::before{transform:rotate(4deg)}
+.card:hover{transform:rotate(-.6deg) translateY(-3px)}
+.ico{color:var(--tape)}
+.ico svg{width:34px;height:34px}
+.card h3{margin:0;font-family:var(--display);font-stretch:112%;font-size:20px;line-height:1.2}
+.card p{margin:0;color:var(--muted);font-size:15px;flex:1}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px}
+.facts div{border:1.5px dashed #b9c0cd;padding:6px 8px;border-radius:4px}
+.facts b{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.hand{font-family:var(--hand);font-size:22px;color:var(--peach);line-height:1}
+.buy{display:flex;justify-content:space-between;align-items:center;text-decoration:none;font-weight:800;color:#fff;background:var(--tape);padding:12px 16px;border-radius:6px}
+.buy:hover{background:var(--tape-2)}
+.check{background:var(--pencil);color:#eef0f4;border-radius:6px;display:grid;grid-template-columns:1fr 1fr;gap:40px;padding:clamp(24px,5vw,48px)}
+.check h2{color:#fff}
+.check p{color:#b8bfcc}
+.list{display:grid;gap:10px}
+.list label{display:flex;gap:12px;align-items:flex-start;background:rgba(255,255,255,.06);padding:12px 14px;border-radius:6px;cursor:pointer}
+.list input{width:20px;height:20px;accent-color:var(--peach);margin-top:3px;flex:none}
+.list label:has(input:checked) span{text-decoration:line-through;opacity:.6}
+.done{font-family:var(--hand);font-size:30px;color:var(--note);margin-top:8px}
+footer{border-top:2px solid var(--pencil)}
+footer .wrap{padding-block:34px;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;font-size:14px;color:var(--muted)}
+footer strong{color:var(--pencil);font-family:var(--display);font-stretch:125%}
+@media (max-width:820px){.hero-grid,.check{grid-template-columns:1fr}nav{display:none}.sticky:nth-child(2){margin-left:0}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="disclose">As an Amazon Associate I earn from qualifying purchases. Links below may earn a commission at no extra cost to you.</div>
+<header><div class="wrap">
+  <a class="logo" href="#"><b>No Drill</b> Nest</a>
+  <nav><a href="#picks">Upgrades</a><a href="#moveout">Move-out checklist</a></nav>
+</div></header>
+
+<div class="hero"><div class="wrap">
+  <div class="frame"><i class="t1"></i><i class="t2"></i>
+    <div class="hero-grid">
+      <div>
+        <h1>Make it yours. <span>Keep your deposit.</span></h1>
+        <p class="lede">Lighting, storage and style upgrades for renters. Everything here sticks, clips, tensions or plugs in, and comes off clean when you move out.</p>
+        <a class="btn" href="#picks">Browse the upgrades <i data-lucide="arrow-right"></i></a>
+      </div>
+      <div class="notes" aria-hidden="true">
+        <div class="sticky">no drill ✓</div>
+        <div class="sticky">no landlord email ✓</div>
+        <div class="sticky">peels off clean ✓</div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<section id="picks" style="padding-top:20px"><div class="wrap">
+  <h2>The renter's upgrade wall</h2>
+  <p class="sub">Each pick lists how long it takes to put up and how it comes down. Test adhesive products on a hidden spot first, since paint quality varies between apartments.</p>
+  <div class="grid">
+    <article class="card">
+      <div class="ico"><i data-lucide="lamp-wall-up"></i></div>
+      <h3>Plug-in wall sconces</h3>
+      <p>Real wall lighting without an electrician. The cord runs to an outlet and hides under a paintable cord cover.</p>
+      <div class="facts"><div><b>Install</b>15 min</div><div><b>Comes off</b>Adhesive strips</div></div>
+      <div class="hand">biggest glow-up per dollar</div>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=plug+in+wall+sconce&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a>
+    </article>
+    <article class="card">
+      <div class="ico"><i data-lucide="grid-3x3"></i></div>
+      <h3>Peel-and-stick backsplash tiles</h3>
+      <p>Covers a dated backsplash in an afternoon. Choose vinyl tiles labelled removable rather than permanent.</p>
+      <div class="facts"><div><b>Install</b>2–3 hrs</div><div><b>Comes off</b>Peel slowly, warm with a hair dryer</div></div>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=peel+and+stick+backsplash+tile+removable&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a>
+    </article>
+    <article class="card">
+      <div class="ico"><i data-lucide="anchor"></i></div>
+      <h3>Damage-free adhesive hooks</h3>
+      <p>For towels, keys, bags and frames. The pull-tab style releases cleanly when you stretch the strip.</p>
+      <div class="facts"><div><b>Install</b>2 min + 1 hr cure</div><div><b>Comes off</b>Pull tab straight down</div></div>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=damage+free+adhesive+hooks&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a>
+    </article>
+    <article class="card">
+      <div class="ico"><i data-lucide="align-justify"></i></div>
+      <h3>Tension rod shelving</h3>
+      <p>Spring-loaded poles that wedge floor to ceiling or wall to wall. Instant shelves over a toilet or inside a closet.</p>
+      <div class="facts"><div><b>Install</b>10 min</div><div><b>Comes off</b>Twist and release</div></div>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=tension+rod+shelf&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a>
+    </article>
+    <article class="card">
+      <div class="ico"><i data-lucide="lightbulb"></i></div>
+      <h3>Smart bulbs</h3>
+      <p>Swap the harsh landlord bulbs for warm, dimmable ones you control from your phone. Take them with you.</p>
+      <div class="facts"><div><b>Install</b>1 min each</div><div><b>Comes off</b>Swap old bulb back</div></div>
+      <div class="hand">pack these when you move</div>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=smart+light+bulbs+warm+white&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a>
+    </article>
+    <article class="card">
+      <div class="ico"><i data-lucide="wallpaper"></i></div>
+      <h3>Removable wallpaper</h3>
+      <p>One accent wall changes a whole room. Pick a water-activated or peel-and-stick paper marked removable.</p>
+      <div class="facts"><div><b>Install</b>Half a day</div><div><b>Comes off</b>Peels in strips</div></div>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=removable+peel+and+stick+wallpaper&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a>
+    </article>
+    <article class="card">
+      <div class="ico"><i data-lucide="door-open"></i></div>
+      <h3>Over-the-door organizer</h3>
+      <p>Turns the back of any door into storage for shoes, pantry items or cleaning supplies. Hooks over the top.</p>
+      <div class="facts"><div><b>Install</b>1 min</div><div><b>Comes off</b>Lift off the door</div></div>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=over+the+door+organizer&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a>
+    </article>
+    <article class="card">
+      <div class="ico"><i data-lucide="sun"></i></div>
+      <h3>Rechargeable puck lights</h3>
+      <p>Stick under cabinets or inside closets for soft task light. USB-charged, so no wiring at all.</p>
+      <div class="facts"><div><b>Install</b>5 min</div><div><b>Comes off</b>Magnetic or adhesive base</div></div>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=rechargeable+under+cabinet+puck+lights&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a>
+    </article>
+  </div>
+</div></section>
+
+<section id="moveout" style="padding-top:0"><div class="wrap">
+  <div class="check">
+    <div>
+      <h2>Move-out checklist</h2>
+      <p>Before the walk-through inspection, undo every upgrade in this order. Tick them off as you go. The list resets when you reload the page.</p>
+    </div>
+    <div class="list">
+      <label><input type="checkbox"><span>Swap the original bulbs back in and pack the smart bulbs</span></label>
+      <label><input type="checkbox"><span>Release adhesive hooks by pulling each tab straight down, slowly</span></label>
+      <label><input type="checkbox"><span>Warm backsplash tiles with a hair dryer, then peel at a low angle</span></label>
+      <label><input type="checkbox"><span>Peel wallpaper from a top corner and wipe any residue with warm soapy water</span></label>
+      <label><input type="checkbox"><span>Unplug sconces, remove cord covers and their strips</span></label>
+      <label><input type="checkbox"><span>Take down tension rods and door organizers</span></label>
+      <div class="done" id="done" aria-live="polite"></div>
+    </div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div><strong>No Drill Nest</strong><br>Renter-friendly upgrades.</div>
+  <div style="max-width:520px">As an Amazon Associate I earn from qualifying purchases. Prices and availability are set by Amazon and can change. Always check your lease and test adhesives on a hidden spot first.</div>
+</div></footer>
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script>
+lucide.createIcons();
+const boxes=[...document.querySelectorAll('.list input')];
+boxes.forEach(b=>b.addEventListener('change',()=>{const n=boxes.filter(x=>x.checked).length;document.getElementById('done').textContent=n===boxes.length?'deposit: safe ✓':n?`${n} of ${boxes.length} done`:''}));
+</script>
+</body>
+</html>

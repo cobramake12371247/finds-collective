@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Cat Shelf</title>
+<meta name="description" content="Enrichment for indoor cats, planned around their natural day: hunt, eat, groom, sleep. Cat toys, perches and fountains from Amazon.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Rubik:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: a cat silhouette in a dusk window; then the indoor cat's day as a timeline, each slot with a pick */
+:root{
+  --dusk:#2c3442; --dusk-2:#3a4558; --sill:#eef1f5; --marigold:#f5a524; --salmon:#f28b74;
+  --lav:#c9c3f0; --text:#2c3442; --muted:#5e6676; --white:#ffffff;
+  --display:"Shrikhand", Georgia, cursive; --body:"Rubik", system-ui, sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--sill);color:var(--text);font:16px/1.6 var(--body)}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.disclose{background:var(--marigold);color:var(--dusk);font-size:13px;font-weight:500;text-align:center;padding-block:7px}
+.hero{background:var(--dusk);color:#fff}
+header .wrap{display:flex;justify-content:space-between;align-items:center;padding-block:18px;gap:16px}
+.logo{font-family:var(--display);font-size:28px;color:#fff;text-decoration:none}
+nav{display:flex;gap:22px;font-weight:600}
+nav a{color:#d6dbe5;text-decoration:none}
+nav a:hover{color:var(--marigold)}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding-block:30px 80px}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(42px,6.6vw,80px);line-height:1;margin:0 0 18px;text-wrap:balance}
+h1 span{color:var(--marigold)}
+.lede{font-size:19px;color:#c9d0dc;max-width:48ch;margin:0 0 28px}
+.btn{display:inline-flex;gap:10px;align-items:center;background:var(--salmon);color:var(--dusk);font-weight:700;text-decoration:none;padding:15px 26px;border-radius:999px;transition:transform .2s,background .2s}
+.btn:hover{background:var(--marigold);transform:translateY(-2px)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--marigold);outline-offset:3px}
+/* window + cat */
+.window{position:relative;aspect-ratio:4/5;max-width:360px;width:100%;justify-self:center;background:linear-gradient(#f7b267 0%,#f28b74 40%,#7a6fb8 100%);border:14px solid #e9e2d6;border-radius:180px 180px 8px 8px;overflow:hidden}
+.window::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:10px;margin-left:-5px;background:#e9e2d6}
+.moon{position:absolute;right:18%;top:14%;width:46px;height:46px;border-radius:50%;background:#fff6dc;box-shadow:0 0 30px #fff6dc}
+.cat{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:62%}
+.cat .body{width:100%;aspect-ratio:1/1;background:var(--dusk);border-radius:50% 50% 0 0}
+.cat .head{position:absolute;left:50%;top:-38%;transform:translateX(-50%);width:62%;aspect-ratio:1/0.9;background:var(--dusk);border-radius:50%}
+.cat .head::before,.cat .head::after{content:"";position:absolute;top:-16%;width:34%;aspect-ratio:1/1.2;background:var(--dusk);clip-path:polygon(50% 0,100% 100%,0 100%)}
+.cat .head::before{left:4%;transform:rotate(-12deg)}.cat .head::after{right:4%;transform:rotate(12deg)}
+.eye{position:absolute;top:42%;width:18%;height:22%;background:var(--marigold);border-radius:50%;animation:blink 5s infinite}
+.eye.l{left:24%}.eye.r{right:24%}
+.eye::after{content:"";position:absolute;left:42%;top:10%;width:16%;height:80%;background:#1a1f28;border-radius:50%}
+@keyframes blink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+.tail{position:absolute;right:-26%;bottom:4%;width:40%;height:18px;background:var(--dusk);border-radius:12px;transform-origin:left center;animation:swish 3s ease-in-out infinite}
+@keyframes swish{50%{transform:rotate(-22deg)}}
+.sillbar{position:absolute;left:0;right:0;bottom:0;height:16px;background:#e9e2d6}
+section{padding-block:72px}
+h2{font-family:var(--display);font-weight:400;font-size:clamp(32px,4.6vw,52px);line-height:1.05;margin:0 0 8px}
+.sub{color:var(--muted);max-width:62ch;margin:0 0 30px}
+.day{display:grid;gap:18px;position:relative}
+.day::before{content:"";position:absolute;left:60px;top:10px;bottom:10px;width:3px;background:repeating-linear-gradient(var(--lav) 0 8px,transparent 8px 14px)}
+.slot{display:grid;grid-template-columns:120px 1fr;gap:20px;align-items:start}
+.time{font-weight:700;font-size:14px;text-align:center;background:var(--white);border-radius:999px;padding:8px 0;position:relative;z-index:1;font-variant-numeric:tabular-nums}
+.time small{display:block;font-weight:500;color:var(--muted);font-size:12px}
+.pick{background:var(--white);border-radius:24px;padding:22px;display:grid;grid-template-columns:56px 1fr auto;gap:18px;align-items:center;transition:transform .2s,box-shadow .2s}
+.pick:hover{transform:translateX(4px);box-shadow:0 14px 28px rgba(44,52,66,.08)}
+.pick .ico{width:56px;height:56px;border-radius:18px;display:grid;place-items:center;background:var(--sill);color:var(--salmon)}
+.pick h3{margin:0 0 2px;font-size:19px}
+.pick p{margin:0;color:var(--muted);font-size:15px}
+.instinct{display:inline-block;margin-top:6px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#6d5fd0}
+.buy{white-space:nowrap;text-decoration:none;font-weight:700;color:#fff;background:var(--dusk);padding:11px 18px;border-radius:999px;display:inline-flex;gap:6px;align-items:center}
+.buy:hover{background:var(--salmon);color:var(--dusk)}
+.buy svg{width:16px;height:16px}
+.extras{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.extra{background:var(--lav);border-radius:24px;padding:26px;display:flex;flex-direction:column;gap:10px}
+.extra:nth-child(2){background:#ffd6c9}
+.extra h3{margin:0;font-family:var(--display);font-weight:400;font-size:26px}
+.extra p{margin:0;flex:1}
+footer{background:var(--dusk);color:#c3c9d4;font-size:14px}
+footer .wrap{padding-block:36px;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between}
+footer strong{font-family:var(--display);font-weight:400;font-size:22px;color:#fff}
+@media (max-width:820px){.hero-grid,.extras{grid-template-columns:1fr}nav{display:none}.slot{grid-template-columns:1fr}.day::before{display:none}.time{justify-self:start;padding-inline:16px}.pick{grid-template-columns:48px 1fr}.pick .buy{grid-column:1/-1;justify-self:start}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="disclose">As an Amazon Associate I earn from qualifying purchases. Links may earn a commission at no extra cost to you.</div>
+<div class="hero">
+  <header><div class="wrap">
+    <a class="logo" href="#">The Cat Shelf</a>
+    <nav><a href="#day">A cat's day</a><a href="#extras">Essentials</a></nav>
+  </div></header>
+  <div class="wrap hero-grid">
+    <div>
+      <h1>Indoor cat. <span>Outdoor-sized</span> curiosity.</h1>
+      <p class="lede">Cats are wired to hunt, eat, groom and sleep in a cycle. Build their day around that rhythm and you get a calmer cat and fewer 3 a.m. zoomies.</p>
+      <a class="btn" href="#day">Plan their day <i data-lucide="arrow-down"></i></a>
+    </div>
+    <div class="window" aria-hidden="true">
+      <div class="moon"></div>
+      <div class="cat"><div class="head"><span class="eye l"></span><span class="eye r"></span></div><div class="body"></div><div class="tail"></div></div>
+      <div class="sillbar"></div>
+    </div>
+  </div>
+</div>
+
+<section id="day"><div class="wrap">
+  <h2>A good day, hour by hour</h2>
+  <p class="sub">Cats are most active at dawn and dusk. Here's a simple rhythm with one pick for each part of the day.</p>
+  <div class="day">
+    <div class="slot"><div class="time">6:30 am<small>dawn hunt</small></div>
+      <div class="pick"><div class="ico"><i data-lucide="feather"></i></div><div><h3>Feather wand toy</h3><p>Ten minutes of stalk-and-pounce before breakfast burns off the early-morning energy.</p><span class="instinct">Instinct: hunt</span></div>
+        <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=cat+feather+wand+toy&tag=YOURTAG-20">Shop <i data-lucide="arrow-up-right"></i></a></div></div>
+    <div class="slot"><div class="time">7:00 am<small>catch &amp; eat</small></div>
+      <div class="pick"><div class="ico"><i data-lucide="puzzle"></i></div><div><h3>Puzzle feeder</h3><p>Makes them work for breakfast like a real catch, and slows down fast eaters.</p><span class="instinct">Instinct: forage</span></div>
+        <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=cat+puzzle+feeder&tag=YOURTAG-20">Shop <i data-lucide="arrow-up-right"></i></a></div></div>
+    <div class="slot"><div class="time">9:00 am<small>watch the world</small></div>
+      <div class="pick"><div class="ico"><i data-lucide="sun"></i></div><div><h3>Window perch</h3><p>Suction-cup hammock for bird TV in the sun. Many cats will spend hours there.</p><span class="instinct">Instinct: survey territory</span></div>
+        <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=cat+window+perch&tag=YOURTAG-20">Shop <i data-lucide="arrow-up-right"></i></a></div></div>
+    <div class="slot"><div class="time">All day<small>hydrate</small></div>
+      <div class="pick"><div class="ico"><i data-lucide="droplets"></i></div><div><h3>Cat water fountain</h3><p>Many cats prefer moving water and drink more from a fountain than from a still bowl.</p><span class="instinct">Instinct: fresh water</span></div>
+        <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=cat+water+fountain&tag=YOURTAG-20">Shop <i data-lucide="arrow-up-right"></i></a></div></div>
+    <div class="slot"><div class="time">2:00 pm<small>stretch &amp; scratch</small></div>
+      <div class="pick"><div class="ico"><i data-lucide="ruler"></i></div><div><h3>Tall sisal scratching post</h3><p>Choose one at least 80 cm tall so they can stretch fully. It saves the couch.</p><span class="instinct">Instinct: mark &amp; stretch</span></div>
+        <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=tall+sisal+cat+scratching+post&tag=YOURTAG-20">Shop <i data-lucide="arrow-up-right"></i></a></div></div>
+    <div class="slot"><div class="time">7:00 pm<small>dusk hunt</small></div>
+      <div class="pick"><div class="ico"><i data-lucide="castle"></i></div><div><h3>Cat tree with hideaways</h3><p>Climbing, ambushing and a high lookout. Evening play here means less night-time chaos.</p><span class="instinct">Instinct: climb</span></div>
+        <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=cat+tree+with+condo&tag=YOURTAG-20">Shop <i data-lucide="arrow-up-right"></i></a></div></div>
+    <div class="slot"><div class="time">10:00 pm<small>sleep</small></div>
+      <div class="pick"><div class="ico"><i data-lucide="moon"></i></div><div><h3>Self-warming cat bed</h3><p>A layer reflects their own body heat back, so they stay cozy without any electricity.</p><span class="instinct">Instinct: warm, safe nest</span></div>
+        <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=self+warming+cat+bed&tag=YOURTAG-20">Shop <i data-lucide="arrow-up-right"></i></a></div></div>
+  </div>
+</div></section>
+
+<section id="extras" style="padding-top:0"><div class="wrap">
+  <h2>For the humans</h2>
+  <p class="sub">Two things every cat household ends up needing.</p>
+  <div class="extras">
+    <div class="extra"><h3>Reusable lint roller</h3><p>Rinse it under the tap and it's sticky again. No more buying refills.</p>
+      <a class="buy" style="align-self:flex-start" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=reusable+pet+hair+lint+roller&tag=YOURTAG-20">Shop <i data-lucide="arrow-up-right"></i></a></div>
+    <div class="extra"><h3>Litter mat</h3><p>Catches the litter from their paws before it gets tracked through the house.</p>
+      <a class="buy" style="align-self:flex-start" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=cat+litter+mat&tag=YOURTAG-20">Shop <i data-lucide="arrow-up-right"></i></a></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div><strong>The Cat Shelf</strong><br>Enrichment for indoor cats.</div>
+  <div style="max-width:520px">As an Amazon Associate I earn from qualifying purchases. Every cat is different; ask your vet about health or behavior concerns. Prices and availability are set by Amazon.</div>
+</div></footer>
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script>lucide.createIcons();</script>
+</body>
+</html>

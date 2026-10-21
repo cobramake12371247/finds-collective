@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Desk Setup Lab</title>
+<meta name="description" content="Upgrade your desk setup one piece at a time. Ergonomic, cable-free work-from-home gear picked from Amazon, with real specs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: night-time desk on a pegboard wall, warm lamp glow; gear cards carry spec sheets; tier switcher builds a setup */
+:root{
+  --night:#0e1525; --panel:#162039; --line:#26355a; --amber:#ffb547; --amber-2:#ffcf85;
+  --ice:#8fd8ff; --text:#e8edf7; --muted:#9aa7c2;
+  --display:"Sora", system-ui, sans-serif; --mono:"JetBrains Mono", ui-monospace, monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--night);color:var(--text);font:16px/1.6 var(--display)}
+.wrap{max-width:1160px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.disclose{border-bottom:1px solid var(--line);color:var(--muted);font:12px var(--mono);text-align:center;padding-block:8px}
+header .wrap{display:flex;justify-content:space-between;align-items:center;padding-block:18px;gap:16px}
+.logo{font-weight:800;font-size:20px;text-decoration:none;color:var(--text);display:flex;gap:10px;align-items:center}
+.logo i{color:var(--amber)}
+nav{display:flex;gap:22px;font-size:14px;font-weight:600}
+nav a{color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--amber)}
+.hero{position:relative;overflow:hidden;background:radial-gradient(circle,#24325a 1.5px,transparent 1.6px) 0 0/26px 26px}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 70% at 72% 20%,rgba(255,181,71,.28),transparent 70%),linear-gradient(transparent 60%,var(--night))}
+.hero .wrap{position:relative;display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;padding-block:60px 80px}
+.kicker{font:600 13px var(--mono);color:var(--amber)}
+h1{font-size:clamp(38px,5.8vw,70px);line-height:1.02;font-weight:800;letter-spacing:-.03em;margin:14px 0 18px;text-wrap:balance}
+h1 span{color:var(--amber)}
+.lede{color:var(--muted);font-size:18px;max-width:50ch;margin:0 0 28px}
+.btn{display:inline-flex;gap:10px;align-items:center;background:var(--amber);color:#1b1408;text-decoration:none;font-weight:700;padding:14px 22px;border-radius:10px;box-shadow:0 0 0 0 rgba(255,181,71,.5);transition:box-shadow .25s,transform .2s}
+.btn:hover{box-shadow:0 0 30px 4px rgba(255,181,71,.35);transform:translateY(-2px)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--ice);outline-offset:3px}
+/* desk illustration */
+.desk{position:relative;aspect-ratio:5/4;max-width:100%}
+.monitor{position:absolute;left:14%;right:14%;top:10%;height:52%;background:linear-gradient(140deg,#1f3a70,#0f1f40);border:6px solid #050a14;border-radius:12px;overflow:hidden}
+.monitor::after{content:"";position:absolute;left:8%;top:14%;width:55%;height:8px;background:var(--ice);border-radius:4px;box-shadow:0 18px 0 #5b7bb8,0 36px 0 #5b7bb8,0 54px 0 var(--amber)}
+.lightbar{position:absolute;left:30%;right:30%;top:6%;height:8px;background:#050a14;border-radius:4px;box-shadow:0 10px 40px 10px rgba(255,181,71,.45)}
+.neck{position:absolute;left:47%;width:6%;top:62%;height:12%;background:#0a1222}
+.surface{position:absolute;left:0;right:0;top:74%;height:6%;background:#3a2a1e;border-radius:4px}
+.mat{position:absolute;left:10%;right:10%;top:70%;height:6%;background:#22304f;border-radius:6px}
+.kbd{position:absolute;left:24%;width:36%;top:66.5%;height:5%;background:#cdd6e6;border-radius:4px;background-image:repeating-linear-gradient(90deg,#cdd6e6 0 9px,#a9b4c8 9px 10px)}
+.mouse{position:absolute;left:66%;width:6%;top:66%;height:6%;background:#cdd6e6;border-radius:40%}
+.mug{position:absolute;right:6%;top:58%;width:8%;height:13%;background:var(--amber);border-radius:2px 2px 8px 8px}
+section{padding-block:70px}
+h2{font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-.02em;margin:0 0 8px}
+.sub{color:var(--muted);max-width:62ch;margin:0 0 26px}
+.tiers{display:inline-flex;border:1px solid var(--line);border-radius:12px;padding:4px;gap:4px;margin-bottom:28px;flex-wrap:wrap}
+.tiers button{background:transparent;border:0;color:var(--muted);font:600 14px var(--display);padding:10px 18px;border-radius:9px;cursor:pointer}
+.tiers button[aria-pressed="true"]{background:var(--panel);color:var(--amber);box-shadow:inset 0 0 0 1px var(--line)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:12px;transition:opacity .3s,border-color .3s,transform .2s}
+.card:hover{border-color:var(--amber);transform:translateY(-3px)}
+.card.off{opacity:.28}
+.top{display:flex;justify-content:space-between;align-items:center}
+.top svg{width:30px;height:30px;color:var(--amber)}
+.lvl{font:600 11px var(--mono);color:var(--ice);border:1px solid var(--line);padding:3px 8px;border-radius:6px}
+.card h3{margin:0;font-size:19px}
+.card p{margin:0;color:var(--muted);font-size:15px}
+.spec{font:13px/1.7 var(--mono);border-top:1px dashed var(--line);padding-top:10px;margin:0;flex:1}
+.spec div{display:flex;justify-content:space-between;gap:12px}
+.spec span{color:var(--muted)}
+.buy{display:flex;justify-content:space-between;align-items:center;text-decoration:none;font-weight:700;color:var(--night);background:var(--text);padding:11px 15px;border-radius:10px}
+.buy:hover{background:var(--amber)}
+.rules{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.rules div{border-left:2px solid var(--amber);padding-left:18px}
+.rules b{display:block;font-size:17px;margin-bottom:4px}
+.rules p{margin:0;color:var(--muted)}
+footer{border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+footer .wrap{padding-block:34px;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between}
+footer strong{color:var(--text)}
+@media (max-width:820px){.hero .wrap,.rules{grid-template-columns:1fr}nav{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="disclose">// As an Amazon Associate I earn from qualifying purchases. Links may earn a commission at no extra cost to you.</div>
+<header><div class="wrap">
+  <a class="logo" href="#"><i data-lucide="lamp-desk"></i>Desk Setup Lab</a>
+  <nav><a href="#gear">Gear</a><a href="#rules">Setup rules</a></nav>
+</div></header>
+
+<div class="hero"><div class="wrap">
+  <div>
+    <div class="kicker">&gt; work_from_home --upgrade</div>
+    <h1>The desk you <span>actually want</span> to sit at.</h1>
+    <p class="lede">Better light, fewer cables, a screen at eye level. Upgrade one piece at a time, starting with the changes you'll feel on day one.</p>
+    <a class="btn" href="#gear">Build my setup <i data-lucide="arrow-down"></i></a>
+  </div>
+  <div class="desk" aria-hidden="true">
+    <div class="lightbar"></div><div class="monitor"></div><div class="neck"></div>
+    <div class="mat"></div><div class="kbd"></div><div class="mouse"></div><div class="mug"></div><div class="surface"></div>
+  </div>
+</div></div>
+
+<section id="gear" style="padding-top:20px"><div class="wrap">
+  <h2>Pick your level</h2>
+  <p class="sub">Each level adds to the one before it. Starter fixes posture and clutter, Pro adds better light and connections, and Dream finishes the setup.</p>
+  <div class="tiers" role="group" aria-label="Setup level">
+    <button aria-pressed="false" data-l="1">Starter</button>
+    <button aria-pressed="false" data-l="2">Pro</button>
+    <button aria-pressed="true" data-l="3">Dream (show all)</button>
+  </div>
+  <div class="grid">
+    <article class="card" data-l="1"><div class="top"><i data-lucide="laptop"></i><span class="lvl">STARTER</span></div>
+      <h3>Adjustable laptop stand</h3><p>Raises the screen to eye level so you stop hunching. Pair with a keyboard below.</p>
+      <div class="spec"><div><span>height</span>adjustable</div><div><span>material</span>aluminium</div><div><span>folds</span>yes</div></div>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=adjustable+aluminum+laptop+stand&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+    <article class="card" data-l="1"><div class="top"><i data-lucide="cable"></i><span class="lvl">STARTER</span></div>
+      <h3>Under-desk cable tray</h3><p>Hides the power strip and every charger under the desk. The fastest way to make a setup look clean.</p>
+      <div class="spec"><div><span>mount</span>screw or clamp</div><div><span>fits</span>power strip + bricks</div></div>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=under+desk+cable+management+tray&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+    <article class="card" data-l="1"><div class="top"><i data-lucide="square"></i><span class="lvl">STARTER</span></div>
+      <h3>Large desk mat</h3><p>One surface for keyboard and mouse, quieter typing and a clean color block on camera.</p>
+      <div class="spec"><div><span>size</span>~90 × 40 cm</div><div><span>edge</span>stitched</div></div>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=large+desk+mat&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+    <article class="card" data-l="2"><div class="top"><i data-lucide="lamp"></i><span class="lvl">PRO</span></div>
+      <h3>Monitor light bar</h3><p>Sits on top of the screen and lights the desk, not the display. No glare and no lamp taking up desk space.</p>
+      <div class="spec"><div><span>power</span>USB</div><div><span>color temp</span>adjustable</div></div>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=monitor+light+bar&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+    <article class="card" data-l="2"><div class="top"><i data-lucide="plug-zap"></i><span class="lvl">PRO</span></div>
+      <h3>65W GaN charger</h3><p>One small brick charges a laptop, phone and earbuds at once. Replaces three chargers.</p>
+      <div class="spec"><div><span>output</span>65 W</div><div><span>ports</span>2× USB-C + USB-A</div></div>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=65w+gan+charger&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+    <article class="card" data-l="2"><div class="top"><i data-lucide="usb"></i><span class="lvl">PRO</span></div>
+      <h3>USB-C hub</h3><p>One cable from the laptop for monitor, keyboard, SD card and charging.</p>
+      <div class="spec"><div><span>video</span>HDMI 4K</div><div><span>passthrough</span>USB-C PD</div></div>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=usb+c+hub+hdmi+4k&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+    <article class="card" data-l="3"><div class="top"><i data-lucide="keyboard"></i><span class="lvl">DREAM</span></div>
+      <h3>Wireless mechanical keyboard</h3><p>Satisfying to type on and switches between laptop, tablet and phone. A compact 75% layout saves mouse room.</p>
+      <div class="spec"><div><span>layout</span>75%</div><div><span>connect</span>Bluetooth + 2.4 GHz</div></div>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=wireless+mechanical+keyboard+75%25&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+    <article class="card" data-l="3"><div class="top"><i data-lucide="webcam"></i><span class="lvl">DREAM</span></div>
+      <h3>1080p webcam</h3><p>A real upgrade over most built-in laptop cameras for calls. Clips onto the monitor.</p>
+      <div class="spec"><div><span>resolution</span>1080p</div><div><span>mic</span>built-in</div></div>
+      <a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=1080p+webcam&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></article>
+  </div>
+</div></section>
+
+<section id="rules" style="padding-top:0"><div class="wrap">
+  <h2>Three setup rules</h2>
+  <p class="sub">Get these right and every piece of gear works better.</p>
+  <div class="rules">
+    <div><b>Top of screen at eye level</b><p>Your eyes should land on the top third of the display without tilting your head.</p></div>
+    <div><b>Elbows at 90°</b><p>Keyboard low enough that your shoulders stay relaxed.</p></div>
+    <div><b>Light from the side</b><p>Put the main light beside the screen or above it, never behind it.</p></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div><strong>Desk Setup Lab</strong><br>Better desks, one upgrade at a time.</div>
+  <div style="max-width:520px">As an Amazon Associate I earn from qualifying purchases. Specs describe typical products in each category; check the listing before buying. Prices and availability are set by Amazon.</div>
+</div></footer>
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script>
+lucide.createIcons();
+const tb=document.querySelectorAll('.tiers button'),cards=document.querySelectorAll('.card');
+tb.forEach(b=>b.addEventListener('click',()=>{tb.forEach(x=>x.setAttribute('aria-pressed',x===b));cards.forEach(c=>c.classList.toggle('off',+c.dataset.l>+b.dataset.l))}));
+</script>
+</body>
+</html>

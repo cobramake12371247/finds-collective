@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lights Out Lab</title>
+<meta name="description" content="Sleep better tonight. A bedtime calculator built on 90-minute sleep cycles, plus bedroom sleep essentials from Amazon.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Nunito+Sans:opsz,wght@6..12,400..700&display=swap">
+<style>
+/* Layout: a quiet night sky; the bedtime calculator is the hero tool, then the bedroom kit by sense */
+:root{
+  --night:#121834; --night-2:#1b2350; --moon:#f3e9c8; --lav:#a99cf0; --dawn:#ffb48f;
+  --text:#e9e7f5; --muted:#a3a7c7; --line:#2b3468;
+  --display:"Newsreader", Georgia, serif; --body:"Nunito Sans", system-ui, sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--night);color:var(--text);font:17px/1.65 var(--body)}
+.wrap{max-width:1100px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.disclose{font-size:13px;color:var(--muted);text-align:center;padding-block:8px;border-bottom:1px solid var(--line)}
+.sky{background:
+  radial-gradient(1.5px 1.5px at 10% 20%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 30% 70%,#fff 50%,transparent 51%),
+  radial-gradient(1.5px 1.5px at 55% 15%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 80% 40%,#fff 50%,transparent 51%),
+  radial-gradient(1px 1px at 90% 80%,#fff 50%,transparent 51%),radial-gradient(1.5px 1.5px at 20% 90%,#fff 50%,transparent 51%),
+  radial-gradient(1px 1px at 65% 85%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 42% 42%,#ffffffaa 50%,transparent 51%),
+  linear-gradient(var(--night) 0%,var(--night-2) 100%)}
+header .wrap{display:flex;justify-content:space-between;align-items:center;padding-block:20px;gap:16px}
+.logo{font-family:var(--display);font-size:26px;color:var(--moon);text-decoration:none;display:flex;gap:10px;align-items:center}
+nav{display:flex;gap:22px;font-weight:600;font-size:15px}
+nav a{color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--moon)}
+.hero .wrap{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center;padding-block:40px 90px}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(44px,6.6vw,82px);line-height:1;margin:0 0 20px;color:var(--moon);text-wrap:balance}
+h1 em{color:var(--lav)}
+.lede{color:var(--muted);font-size:19px;max-width:44ch;margin:0}
+.tool{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:28px;padding:30px;backdrop-filter:blur(4px)}
+.tool label{font-weight:700;display:block;margin-bottom:10px}
+.tool input[type=time]{font:600 28px var(--body);background:var(--night);color:var(--moon);border:1px solid var(--line);border-radius:14px;padding:10px 16px;width:100%;max-width:240px}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--lav);outline-offset:3px}
+.times{display:grid;gap:10px;margin-top:22px}
+.t{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:14px 18px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid transparent}
+.t.best{border-color:var(--lav);background:rgba(169,156,240,.12)}
+.t b{font-family:var(--display);font-size:30px;font-weight:500;color:var(--moon);font-variant-numeric:tabular-nums;line-height:1}
+.t span{color:var(--muted);font-size:14px}
+.t i{font-style:normal;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--lav)}
+.note{font-size:13px;color:var(--muted);margin-top:14px}
+section{padding-block:72px}
+h2{font-family:var(--display);font-weight:400;font-size:clamp(34px,4.8vw,54px);line-height:1.05;margin:0 0 10px;color:var(--moon)}
+.sub{color:var(--muted);max-width:60ch;margin:0 0 30px}
+.senses{display:grid;gap:44px}
+.sense h3{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--dawn);margin:0 0 16px;display:flex;gap:10px;align-items:center}
+.sense h3 svg{width:18px;height:18px}
+.items{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+.item{background:var(--night-2);border:1px solid var(--line);border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:10px;transition:border-color .2s,transform .2s}
+.item:hover{border-color:var(--lav);transform:translateY(-3px)}
+.item h4{font-family:var(--display);font-weight:500;font-size:24px;margin:0;color:var(--moon);line-height:1.15}
+.item p{margin:0;color:var(--muted);font-size:15.5px;flex:1}
+.buy{display:flex;justify-content:space-between;align-items:center;text-decoration:none;font-weight:700;color:var(--night);background:var(--moon);padding:12px 16px;border-radius:12px}
+.buy:hover{background:var(--dawn)}
+.habits{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.habits div{border-top:1px solid var(--lav);padding-top:16px}
+.habits b{font-family:var(--display);font-weight:500;font-size:22px;color:var(--moon);display:block;margin-bottom:4px}
+.habits p{margin:0;color:var(--muted)}
+footer{border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+footer .wrap{padding-block:36px;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between}
+footer strong{font-family:var(--display);font-weight:500;font-size:22px;color:var(--moon)}
+@media (max-width:820px){.hero .wrap,.habits{grid-template-columns:1fr}nav{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="disclose">As an Amazon Associate I earn from qualifying purchases. Links may earn a commission at no extra cost to you.</div>
+<div class="sky">
+<header><div class="wrap">
+  <a class="logo" href="#"><i data-lucide="moon-star"></i>Lights Out Lab</a>
+  <nav><a href="#kit">Bedroom kit</a><a href="#habits">Habits</a></nav>
+</div></header>
+<div class="hero"><div class="wrap">
+  <div>
+    <h1>Wake up <em>between</em> dreams, not in the middle of one.</h1>
+    <p class="lede">Sleep runs in cycles of roughly 90 minutes. Waking at the end of a cycle usually feels easier than waking halfway through. Enter your alarm time and we'll count back.</p>
+  </div>
+  <div class="tool">
+    <label for="wake">I need to wake up at</label>
+    <input id="wake" type="time" value="07:00">
+    <div class="times" id="times" aria-live="polite"></div>
+    <div class="note">Includes about 15 minutes to fall asleep. Cycle length varies from person to person, so treat these as a starting point.</div>
+  </div>
+</div></div>
+</div>
+
+<section id="kit"><div class="wrap">
+  <h2>The bedroom kit, sense by sense</h2>
+  <p class="sub">A good sleep space is dark, quiet, cool and comfortable. One pick for each.</p>
+  <div class="senses">
+    <div class="sense"><h3><i data-lucide="eye-off"></i>Dark</h3><div class="items">
+      <div class="item"><h4>Blackout curtains</h4><p>Block streetlights and early summer sunrises. Thermal versions also help keep the room cool.</p><a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=blackout+curtains+thermal&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></div>
+      <div class="item"><h4>Contoured sleep mask</h4><p>Molded eye cups mean no pressure on your eyelids, and a total blackout anywhere.</p><a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=contoured+sleep+mask&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></div>
+    </div></div>
+    <div class="sense"><h3><i data-lucide="ear"></i>Quiet</h3><div class="items">
+      <div class="item"><h4>White noise machine</h4><p>A steady sound masks traffic, neighbors and a snoring partner. Choose one with a fan-style sound option.</p><a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=white+noise+machine&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></div>
+      <div class="item"><h4>Soft foam earplugs</h4><p>A multi-pack of slow-rebound foam plugs. Cheap, simple and very effective.</p><a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=foam+earplugs+sleeping&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></div>
+    </div></div>
+    <div class="sense"><h3><i data-lucide="thermometer"></i>Cool &amp; comfortable</h3><div class="items">
+      <div class="item"><h4>Cooling pillow</h4><p>Gel-infused or breathable fill so you're not flipping to the cold side all night.</p><a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=cooling+pillow&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></div>
+      <div class="item"><h4>Weighted blanket</h4><p>The gentle, even pressure feels calming to many people. A common rule of thumb is about 10% of your body weight.</p><a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=weighted+blanket&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></div>
+    </div></div>
+    <div class="sense"><h3><i data-lucide="sunrise"></i>A gentle wake-up</h3><div class="items">
+      <div class="item"><h4>Sunrise alarm clock</h4><p>Brightens slowly over 30 minutes before your alarm, like a sunrise in the room. Much kinder than a buzzer.</p><a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=sunrise+alarm+clock&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></div>
+      <div class="item"><h4>Warm dimmable bedside lamp</h4><p>A low, amber light for reading in the last hour before bed instead of a bright overhead light.</p><a class="buy" rel="sponsored nofollow noopener" target="_blank" href="https://www.amazon.com/s?k=dimmable+warm+bedside+lamp&tag=YOURTAG-20">See it on Amazon <i data-lucide="arrow-up-right"></i></a></div>
+    </div></div>
+  </div>
+</div></section>
+
+<section id="habits" style="padding-top:0"><div class="wrap">
+  <h2>Three free habits</h2>
+  <p class="sub">The gear helps more when these are in place.</p>
+  <div class="habits">
+    <div><b>Same wake time</b><p>Even on weekends. It anchors your body clock more than bedtime does.</p></div>
+    <div><b>Morning light</b><p>Ten minutes outside soon after waking helps you feel sleepy at the right time that night.</p></div>
+    <div><b>Screens down early</b><p>Swap the phone for a book or a podcast in the last half hour.</p></div>
+  </div>
+  <p class="sub" style="margin-top:30px;font-size:14px">This page is general information, not medical advice. Talk to a doctor about ongoing sleep problems.</p>
+</div></section>
+
+<footer><div class="wrap">
+  <div><strong>Lights Out Lab</strong><br>Better nights, simply.</div>
+  <div style="max-width:520px">As an Amazon Associate I earn from qualifying purchases. Prices and availability are set by Amazon and can change.</div>
+</div></footer>
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script>
+lucide.createIcons();
+const wake=document.getElementById('wake'),box=document.getElementById('times');
+function fmt(m){m=((m%1440)+1440)%1440;let h=Math.floor(m/60),mm=m%60,ap=h<12?'am':'pm';h=h%12||12;return `${h}:${String(mm).padStart(2,'0')} ${ap}`}
+function upd(){const [h,m]=(wake.value||'07:00').split(':').map(Number),w=h*60+m;
+  box.innerHTML=[6,5,4].map(c=>`<div class="t${c===6?' best':''}"><b>${fmt(w-c*90-15)}</b><span>${c} cycles · ${c*1.5} h sleep</span>${c===6?'<i>ideal</i>':c===5?'<i>good</i>':'<i>short night</i>'}</div>`).join('')}
+wake.addEventListener('input',upd);upd();
+</script>
+</body>
+</html>
